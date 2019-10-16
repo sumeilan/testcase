@@ -9,6 +9,7 @@ from email.header import Header
 from email.mime.multipart import MIMEMultipart
 import smtplib
 
+
 def send_email(filename):
     mail_host = 'smtp.qq.com'
     port = 465  # 端口
@@ -39,11 +40,13 @@ def send_email(filename):
     smtp.sendmail(sender, receivers, message.as_string())
     smtp.quit()
 
+
 def report(testreport):
     lists = os.listdir(testreport)
     lists.sort(key=lambda fn: os.path.getatime(testreport + "\\" + fn))
     filename = os.path.join(testreport, lists[-1])
     return filename
+
 
 if __name__ == '__main__':
     root = os.getcwd()
