@@ -28,4 +28,5 @@ class getData:
 
 if __name__ == '__main__':
     datas = getData()
+    pass
 
