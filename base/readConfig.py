@@ -1,8 +1,9 @@
 import os
 import configparser
 
-path = os.path.split(os.path.realpath(__file__))[0]
-config_path = os.path.join(path, 'config.ini')
+# path = os.path.split(os.path.realpath(__file__))[0]
+path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+config_path = os.path.join(path, 'config\config.ini')
 config = configparser.ConfigParser()
 config.read(config_path, encoding='utf-8')
 
@@ -20,4 +21,7 @@ class ReadConfig():
         return value
 
 if __name__ == '__main__':
-    print()
+    pass
+    # print(config_path)
+    # con = ReadConfig.get_config_path('path')
+    # print(con)

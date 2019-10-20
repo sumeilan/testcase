@@ -1,17 +1,17 @@
 #! /usr/bin/python
 # coding:utf-8
 
-from config import readConfig
+from base import readConfig
 import json
 
 def read_file(filename):
-	config_path = readConfig.ReadConfig.get_config_path('path')
+	config_path = readConfig.ReadConfig.get_config_path('path')+'data\\'
 	with open(config_path + filename, 'r') as load_f:
 		datas = json.load(load_f)
 	return datas
 
 def write_file(param,filename):
-	config_path = readConfig.ReadConfig.get_config_path('path')
+	config_path = readConfig.ReadConfig.get_config_path('path')+'data\\'
 	with open(config_path + filename, "w") as f:
 		json.dump(param, f)
 

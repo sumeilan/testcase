@@ -6,11 +6,15 @@ class global_var:
     module = '2'
     url = '3'
     request_method = '4'
-    request_parameter = '5'
-    expect_result = '6'
-    actual_result = '7'
-    is_pass = '8'
-    is_run = '9'
+    request_headers = '5'
+    request_parameter = '6'
+    data_from_response = '7'
+    request_depend_data ='8'
+    expect_result = '9'
+    actual_result = '10'
+    is_run = '11'
+    is_pass = '12'
+
 
 #获取用例id
 def get_case_id():
@@ -32,13 +36,25 @@ def get_url():
 def get_request_method():
     return global_var.request_method
 
+#获取请求头
+def get_request_headers():
+    return global_var.request_headers
+
 #获取请求参数
-def get_request_method():
+def get_request_parameter():
     return global_var.request_parameter
 
 #获取预期结果
 def get_expect_result():
     return global_var.expect_result
+
+#需要从返回结果中保存的字段
+def get_data_from_response():
+    return global_var.data_from_response
+
+#获取数据依赖的字段
+def get_request_depend_data():
+    return global_var.request_depend_data
 
 #获取是否执行
 def get_is_run():

@@ -10,23 +10,82 @@ class getData:
     def get_case_count(self):
         return self.opera_excel.get_lines()
 
+    #获取用例所属模块
+    def get_module(self,row):
+        col = int(data_config.get_module())
+        module = self.opera_excel.get_cell_value(row, col)
+        return module
+
+
     # 获取是否执行
     def get_is_run(self, row):
-        pass
+        flag = None
+        col = int(data_config.get_is_run())
+        run_model = self.opera_excel.get_cell_value(row,col)
+        if run_model == 'yes':
+            flag = True
+        else:
+            flag = False
+        return flag
 
     # 获取请求方式
     def get_request_method(self, row):
-        pass
+        col = int(data_config.get_request_method())
+        request_method = self.opera_excel.get_cell_value(row,col)
+        return request_method
 
     # 获取url
     def get_request_url(self, row):
-        pass
+        col = int(data_config.get_url())
+        url = self.opera_excel.get_cell_value(row,col)
+        return url
+
+    # 获取请求头
+    def get_request_headers(self, row):
+        col = int(data_config.get_request_headers())
+        headers = self.opera_excel.get_cell_value(row, col)
+        return headers
 
     # 获取请求参数
-    def get_request_data(self, row):
+    def get_request_parameter(self, row):
+        col = int(data_config.get_request_parameter())
+        parameter = self.opera_excel.get_cell_value(row,col)
+        return parameter
+
+    #需要从返回结果中保存的字段
+    def get_data_from_response(self,row):
+        col = int(data_config.get_data_from_response())
+        data_from_response = self.opera_excel.get_cell_value(row, col)
+        if data_from_response == '':
+            return None
+        else:
+            return data_from_response
+
+    # 获取数据依赖的字段
+    def get_request_depend_data(self,row):
+        col = int(data_config.get_request_depend_data())
+        depend_data = self.opera_excel.get_cell_value(row, col)
+        if depend_data=='':
+            return None
+        else:
+            return depend_data
+
+    #获取预期结果
+    def get_expect_data(self,row):
+        col = int(data_config.get_expect_result())
+        expect_data = self.opera_excel.get_cell_value(row,col)
+        return expect_data
+
+    #通过sql 获取预期结果
+    def get_expect_data_for_mysql(self,row):
         pass
 
 if __name__ == '__main__':
-    datas = getData()
-    pass
+    cases = []
+    datas = getData().get_case_count()
+    for i in range(1,datas):
+        if getData().get_is_run(i) :
+            cases.append(i)
+    print(cases)
+
 

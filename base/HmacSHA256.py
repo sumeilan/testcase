@@ -1,10 +1,8 @@
 import base64
-import hmac
+import hmac,json
 import hashlib
-import json
-from config import readConfig
-from operation_tool import file_operation
-
+from base import file_operation
+from operation_data import get_data
 
 def sh256(co):
     secretKey = 'SwYNTwt5qPABx29Atyi0'
@@ -17,11 +15,16 @@ def sh256(co):
     }
 
     file_operation.write_file(headers,'headers.json')
-    # config_path = readConfig.ReadConfig.get_config_path('path')
-    # with open(config_path + 'headers.json', "w") as f:
-    #     json.dump(headers, f)
-    # print("headers 写入文件完成...")
+
+def sh258(co):
+	secretKey = 'SwYNTwt5qPABx29Atyi0'
+	Authorization = base64.b64encode(
+		hmac.new(str.encode(secretKey), str.encode(str(co)), digestmod=hashlib.sha256).digest())
+	return Authorization.decode('utf-8')
 
 if __name__ == '__main__':
-    body1 = '{"page": "1", "pageSize": "20", "app_key": "lemondream"}'
-    # print(sh256(body1))
+	body = get_data.getData().get_request_parameter(1)
+	print('body=',body)
+	A = sh256(json.dumps(eval(body)))
+	print(A)
+

@@ -1,5 +1,6 @@
 # coding:utf-
 import xlrd
+import os
 from xlutils3.copy import copy
 
 class OperationExcel:
@@ -8,7 +9,9 @@ class OperationExcel:
             self.file_name = file_name
             self.sheet_id = sheet_id
         else:
-            self.file_name = '../data/case1.xlsx'
+            root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+            # self.file_name = '../data/case1.xlsx'
+            self.file_name = root + '\data\case1.xlsx'
             self.sheet_id = 0
             self.data = self.get_data()
 
@@ -70,4 +73,4 @@ class OperationExcel:
 
 if __name__ == '__main__':
     opers = OperationExcel()
-    print(opers.get_rows_data(1))
+    print(opers.get_cell_value(1,1))
