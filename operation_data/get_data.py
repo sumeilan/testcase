@@ -10,6 +10,12 @@ class getData:
     def get_case_count(self):
         return self.opera_excel.get_lines()
 
+    #获得用例名
+    def get_case_name(self,row):
+        col = int(data_config.get_case_name())
+        name = self.opera_excel.get_cell_value(row, col)
+        return name
+
     #获取用例所属模块
     def get_module(self,row):
         col = int(data_config.get_module())
