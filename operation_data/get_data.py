@@ -10,6 +10,12 @@ class getData:
     def get_case_count(self):
         return self.opera_excel.get_lines()
 
+    # 获得用例编号
+    def get_case_id(self, row):
+        col = int(data_config.get_case_id())
+        id = self.opera_excel.get_cell_value(row, col)
+        return id
+
     #获得用例名
     def get_case_name(self,row):
         col = int(data_config.get_case_name())
@@ -87,11 +93,12 @@ class getData:
         pass
 
 if __name__ == '__main__':
-    cases = []
-    datas = getData().get_case_count()
-    for i in range(1,datas):
-        if getData().get_is_run(i) :
-            cases.append(i)
-    print(cases)
+    print(getData().get_case_name(1))
+    # cases = []
+    # datas = getData().get_case_count()
+    # for i in range(1,datas):
+    #     if getData().get_is_run(i) :
+    #         cases.append(i)
+    # print(cases)
 
 

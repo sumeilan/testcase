@@ -1,9 +1,12 @@
-# coding:utf-
+# coding:utf-8
 import xlrd
 import os
+import pandas as pd
 from xlutils3.copy import copy
+from operation_data import merge_sheets
 
 class OperationExcel:
+
     def __init__(self, file_name=None, sheet_id=None):
         if file_name:
             self.file_name = file_name
@@ -11,13 +14,26 @@ class OperationExcel:
         else:
             root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
             # self.file_name = '../data/case1.xlsx'
-            self.file_name = root + '\data\case1.xlsx'
+            self.file_name = root + '\data\case2.xlsx'
             self.sheet_id = 0
             self.data = self.get_data()
 
-    # 获取sheets的内容
+        # 获取sheets的内容
     def get_data(self):
+        root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+        new_path = root + '\data\case2.xlsx'
         data = xlrd.open_workbook(self.file_name)
+        print(data)
+        # if len(data.sheet_names()) > 1:
+        #     iris = pd.read_excel(self.file_name, None)  # 读入数据文件
+        #     keys = list(iris.keys())
+        #     iris_concat = pd.DataFrame()
+        #     for i in keys:
+        #         iris1 = iris[i]
+        #         iris_concat = pd.concat([iris_concat, iris1])
+        #     iris_concat.to_excel(new_path, index=False)  # 数据保存路径
+        #     self.file_name = new_path
+        #     print(self.file_name)
         tables = data.sheets()[self.sheet_id]
         return tables
 
@@ -73,4 +89,4 @@ class OperationExcel:
 
 if __name__ == '__main__':
     opers = OperationExcel()
-    print(opers.get_cell_value(1,1))
+    print(opers.get_lines())

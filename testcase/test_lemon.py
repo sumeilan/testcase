@@ -1,7 +1,7 @@
 import requests
 import unittest
 from base import HmacSHA256,file_operation
-import json,os
+import json
 from base import readConfig
 from ddt import ddt, data ,unpack
 from assertpy import assert_that
@@ -9,14 +9,19 @@ from operation_data import get_data
 
 @ddt
 class MyTestSuite(unittest.TestCase):
-	cases_id = []
+	cases_index = []
 	cases_name = []
-	ids = get_data.getData().get_case_count()
-	for i in range(1, ids):
+	cases_module = []
+	cases_id = []
+	indexs = get_data.getData().get_case_count()
+	for i in range(1, indexs):
 		if get_data.getData().get_is_run(i):
-			cases_id.append(i)
+			cases_index.append(i)
 			cases_name.append(get_data.getData().get_case_name(i))
-	cases = list(zip(cases_id, cases_name))
+			cases_module.append((get_data.getData().get_module(i)))
+			cases_id.append(get_data.getData().get_case_id(i))
+	cases = list(zip(cases_index,cases_name,cases_module,cases_id))
+	# print(cases)
 
 	def setUp(self):
 		pass
@@ -26,21 +31,21 @@ class MyTestSuite(unittest.TestCase):
 
 	@unpack
 	@data(*cases)
-	def test_lemon(self, id,casesname):
+	def test_lemon(self, index,casesname,module,id):
 		#判断是否有依赖的字段
-		if get_data.getData().get_request_depend_data(id) == 'access_token':
-			token = file_operation.read_file('token.json')
+		if get_data.getData().get_request_depend_data(index) == 'access_token':
+			token = file_operation.read_file('token.json') #请求的body需要token
 
-		body = eval(get_data.getData().get_request_parameter(id))
-		Authorization = HmacSHA256.sh258(json.dumps(body))
-		headers = eval(get_data.getData().get_request_headers(id))
-		path = get_data.getData().get_request_url(id)
+		body = eval(get_data.getData().get_request_parameter(index))
+		Authorization = HmacSHA256.sh258(json.dumps(body))  #请求头需要Authorization
+		headers = eval(get_data.getData().get_request_headers(index))
+		path = get_data.getData().get_request_url(index)
 		url = readConfig.ReadConfig.get_http('baseurl') + path
-		except_data = get_data.getData().get_expect_data(id)
+		except_data = get_data.getData().get_expect_data(index)
 		try:
-			if get_data.getData().get_request_method(id) == 'post':
+			if get_data.getData().get_request_method(index) == 'post':
 				response = requests.post(url, json=body, headers=headers, verify=False)
-				if get_data.getData().get_data_from_response(id) == 'access_token':
+				if get_data.getData().get_data_from_response(index) == 'access_token':
 					datas = response.json()['data']
 					token = {'access_token': datas['access_token'], 'refresh_token': datas['refresh_token']}
 					file_operation.write_file(token, 'token.json')
