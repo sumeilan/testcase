@@ -7,6 +7,7 @@ from operation_data import get_data
 def sh256(co):
     secretKey = 'SwYNTwt5qPABx29Atyi0'
     Authorization =  base64.b64encode(hmac.new(str.encode(secretKey), str.encode(str(co)), digestmod=hashlib.sha256).digest())
+    print(Authorization)
     headers = {
         "Content-Type": "application/json",
         "channel": "default",
@@ -23,8 +24,9 @@ def sh258(co):
 	return Authorization.decode('utf-8')
 
 if __name__ == '__main__':
-	body = get_data.getData().get_request_parameter(1)
-	print('body=',body)
-	A = sh256(json.dumps(eval(body)))
-	print(A)
+    body = {'page':'1', 'pageSize': '20', 'app_key': 'lemondream'}
+    body1 = {'':''}
+    print(type(body1))
+    A = sh256(json.dumps(body1))
+    print(A)
 

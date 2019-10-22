@@ -1,12 +1,11 @@
 import requests
 import unittest
 from base import HmacSHA256, file_operation
-import json
+import json,time
 from base import readConfig
 from ddt import ddt, data, unpack
 from assertpy import assert_that
 from operation_data import get_data
-
 
 @ddt
 class MyTestSuite(unittest.TestCase):
@@ -23,8 +22,6 @@ class MyTestSuite(unittest.TestCase):
             cases_id.append(int(get_data.getData().get_case_id(i)))
     cases = list(zip(cases_index, cases_name, cases_module, cases_id))
 
-    # print(cases)
-
     def setUp(self):
         pass
 
@@ -34,11 +31,17 @@ class MyTestSuite(unittest.TestCase):
     @unpack
     @data(*cases)
     def test_lemon(self, index, casesname, module, id):
-        # 判断是否有依赖的字段
+        # 判断测试用例是否有依赖的字段
+        if get_data.getData().get_request_depend_data(index) == 'timestamp':
+            timestamp = int(round(time.time() * 1000))
         if get_data.getData().get_request_depend_data(index) == 'access_token':
             token = file_operation.read_file('token.json')  # 请求的body需要token
 
-        body = eval(get_data.getData().get_request_parameter(index))
+        if len(get_data.getData().get_request_parameter(index)) == 0:
+            body = {'':''}
+        else:
+            body = eval(get_data.getData().get_request_parameter(index))
+
         Authorization = HmacSHA256.sh258(json.dumps(body))  # 请求头需要Authorization
         headers = eval(get_data.getData().get_request_headers(index))
         path = get_data.getData().get_request_url(index)
