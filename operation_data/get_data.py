@@ -1,6 +1,7 @@
 #coding:utf-8
 from operation_tool.operation_excel import OperationExcel
 from operation_data import data_config
+import re
 
 class getData:
     def __init__(self):
@@ -85,7 +86,9 @@ class getData:
     #获取预期结果
     def get_expect_data(self,row):
         col = int(data_config.get_expect_result())
-        expect_data = self.opera_excel.get_cell_value(row,col)
+        expect_datas = self.opera_excel.get_cell_value(row,col)
+        new = re.sub(r'[\{\}]', "",expect_datas, flags=re.S)
+        expect_data = new.split(',')
         return expect_data
 
     #通过sql 获取预期结果
@@ -93,12 +96,9 @@ class getData:
         pass
 
 if __name__ == '__main__':
-    print(getData().get_case_name(1))
     # cases = []
     # datas = getData().get_case_count()
-    # for i in range(1,datas):
-    #     if getData().get_is_run(i) :
-    #         cases.append(i)
-    # print(cases)
+    datas = getData().get_expect_data(2)
+    # print(datas)
 
 

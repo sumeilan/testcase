@@ -14,7 +14,7 @@ class OperationExcel:
         else:
             root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
             # self.file_name = '../data/case1.xlsx'
-            self.file_name = root + '\data\case2.xlsx'
+            self.file_name = root + '\data\case1.xlsx'
             self.sheet_id = 0
             self.data = self.get_data()
 
@@ -23,7 +23,6 @@ class OperationExcel:
         root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
         new_path = root + '\data\case2.xlsx'
         data = xlrd.open_workbook(self.file_name)
-        print(data)
         # if len(data.sheet_names()) > 1:
         #     iris = pd.read_excel(self.file_name, None)  # 读入数据文件
         #     keys = list(iris.keys())
