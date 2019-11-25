@@ -7,32 +7,32 @@ from operation_data import merge_sheets
 
 class OperationExcel:
 
-    def __init__(self, file_name=None, sheet_id=None):
+    def __init__(self, file_name=None, sheet_id=0):
         if file_name:
             self.file_name = file_name
             self.sheet_id = sheet_id
         else:
             root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-            # self.file_name = '../data/case1.xlsx'
-            self.file_name = root + '\data\case1.xlsx'
-            self.sheet_id = 0
+            self.file_name = root + '\data\case2.xlsx'
+            self.sheet_id = sheet_id
             self.data = self.get_data()
 
-        # 获取sheets的内容
-    def get_data(self):
-        root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-        new_path = root + '\data\case2.xlsx'
+    #根据sheet名称获得id
+    def get_sheet_id(self,sheet_name):
         data = xlrd.open_workbook(self.file_name)
-        # if len(data.sheet_names()) > 1:
-        #     iris = pd.read_excel(self.file_name, None)  # 读入数据文件
-        #     keys = list(iris.keys())
-        #     iris_concat = pd.DataFrame()
-        #     for i in keys:
-        #         iris1 = iris[i]
-        #         iris_concat = pd.concat([iris_concat, iris1])
-        #     iris_concat.to_excel(new_path, index=False)  # 数据保存路径
-        #     self.file_name = new_path
-        #     print(self.file_name)
+        i = -1
+        for sheet in data.sheets():
+            i =i+1
+            if sheet.name == sheet_name:
+                print(str(i) + sheet.name)
+                self.sheet_id = i
+                print('根据sheet名称获得id')
+                print( self.sheet_id)
+                return i
+
+    # 获取sheets的内容
+    def get_data(self):
+        data = xlrd.open_workbook(self.file_name)
         tables = data.sheets()[self.sheet_id]
         return tables
 
@@ -88,4 +88,6 @@ class OperationExcel:
 
 if __name__ == '__main__':
     opers = OperationExcel()
-    print(opers.get_lines())
+    # sheet_id = opers.get_sheet_id('邀请好友注册')
+    # # print(opers.get_lines())
+    # print(opers.get_data())

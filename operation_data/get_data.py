@@ -4,8 +4,13 @@ from operation_data import data_config
 import re
 
 class getData:
-    def __init__(self):
-        self.opera_excel = OperationExcel()
+    def __init__(self,  sheet_id=None):
+        self.sheet_id=sheet_id
+        self.opera_excel = OperationExcel(sheet_id=sheet_id)
+
+    #获取Excel的sheet
+    def get_sheet_id(self):
+        return self.get_sheet_id()
 
     #去获取excel行数，即case个数
     def get_case_count(self):
@@ -96,9 +101,7 @@ class getData:
         pass
 
 if __name__ == '__main__':
-    # cases = []
-    # datas = getData().get_case_count()
-    datas = getData().get_expect_data(2)
-    # print(datas)
+    datas = getData(sheet_id=1).get_module(2)
+    print(datas)
 
 

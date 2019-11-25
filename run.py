@@ -2,7 +2,7 @@
 import time
 import os
 
-from base import HTMLTestRunnerCN
+from base import HTMLTestRunner
 import unittest
 from email.mime.text import MIMEText
 from email.header import Header
@@ -54,11 +54,11 @@ if __name__ == '__main__':
     now = time.strftime("%Y-%m-%d %H_%M_%S")
     filename = root + '\\report\\' + now + '_result.html'
     fp = open(filename, "wb")
-    runner = HTMLTestRunnerCN.HTMLTestReportCN(
+    runner = HTMLTestRunner.HTMLTestRunner(
         stream=fp, title='接口自动构建测试报告', description='测试结果如下')
     runner.run(discover)
     fp.close()
 
     test_report = root + "\\report"
-    rep = report(test_report)
+    # rep = report(test_report)
     # send_email(rep)

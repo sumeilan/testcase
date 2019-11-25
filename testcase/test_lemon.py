@@ -1,7 +1,7 @@
 import requests
 import unittest
 from base import HmacSHA256, file_operation
-import json,time
+import json, time
 from base import readConfig
 from ddt import ddt, data, unpack
 from assertpy import assert_that
@@ -13,13 +13,14 @@ class MyTestSuite(unittest.TestCase):
     cases_name = []
     cases_module = []
     cases_id = []
-    indexs = get_data.getData().get_case_count()
+    datas = get_data.getData(sheet_id=2)#首页模块
+    indexs = datas.get_case_count()
     for i in range(1, indexs):
-        if get_data.getData().get_is_run(i):
+        if datas.get_is_run(i):
             cases_index.append(i)
-            cases_name.append(get_data.getData().get_case_name(i))
-            cases_module.append((get_data.getData().get_module(i)))
-            cases_id.append(int(get_data.getData().get_case_id(i)))
+            cases_name.append(datas.get_case_name(i))
+            cases_module.append((datas.get_module(i)))
+            cases_id.append(int(datas.get_case_id(i)))
     cases = list(zip(cases_index, cases_name, cases_module, cases_id))
 
     def setUp(self):
@@ -30,27 +31,28 @@ class MyTestSuite(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_lemon(self, index, casesname, module, id):
+    def test_invite_friend(self, index, casesname, module, id):
         # 判断测试用例是否有依赖的字段
-        if get_data.getData().get_request_depend_data(index) == 'timestamp':
-            timestamp = int(round(time.time() * 1000))
-        if get_data.getData().get_request_depend_data(index) == 'access_token':
+        if MyTestSuite.datas.get_request_depend_data(index) == 'access_token':
             token = file_operation.read_file('token.json')  # 请求的body需要token
 
-        if len(get_data.getData().get_request_parameter(index)) == 0:
-            body = {'':''}
+        # if get_data.getData().get_request_depend_data(index) == 'timestamp':
+        #     timestamp = int(round(time.time() * 1000))
+
+        if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
+            body = {'': ''}
         else:
-            body = eval(get_data.getData().get_request_parameter(index))
+            body = eval(MyTestSuite.datas.get_request_parameter(index))
 
         Authorization = HmacSHA256.sh258(json.dumps(body))  # 请求头需要Authorization
-        headers = eval(get_data.getData().get_request_headers(index))
-        path = get_data.getData().get_request_url(index)
+        headers = eval(MyTestSuite.datas.get_request_headers(index))
+        path = MyTestSuite.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
-        except_data = get_data.getData().get_expect_data(index)
+        except_data = MyTestSuite.datas.get_expect_data(index)
         try:
-            if get_data.getData().get_request_method(index) == 'post':
+            if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-                if get_data.getData().get_data_from_response(index) == 'access_token':
+                if MyTestSuite.datas.get_data_from_response(index) == 'access_token':
                     datas = response.json()['data']
                     token = {'access_token': datas['access_token'], 'refresh_token': datas['refresh_token']}
                     file_operation.write_file(token, 'token.json')
