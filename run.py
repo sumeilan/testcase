@@ -60,5 +60,5 @@ if __name__ == '__main__':
     fp.close()
 
     test_report = root + "\\report"
-    # rep = report(test_report)
+    rep = report(test_report)
     # send_email(rep)
