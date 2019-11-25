@@ -15,7 +15,6 @@ class global_var:
     is_run = '11'
     is_pass = '12'
 
-
 #获取用例id
 def get_case_id():
     return global_var.case_id
