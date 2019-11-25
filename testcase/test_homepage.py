@@ -1,7 +1,7 @@
 import requests
 import unittest
 from base import HmacSHA256, file_operation
-import json
+import json, time
 from base import readConfig
 from ddt import ddt, data, unpack
 from assertpy import assert_that
@@ -13,7 +13,7 @@ class MyTestSuite(unittest.TestCase):
     cases_name = []
     cases_module = []
     cases_id = []
-    datas = get_data.getData(sheet_id=4)#邀请好友注册模块
+    datas = get_data.getData(sheet_id=1)#首页模块
     indexs = datas.get_case_count()
     for i in range(1, indexs):
         if datas.get_is_run(i):
@@ -35,6 +35,9 @@ class MyTestSuite(unittest.TestCase):
         # 判断测试用例是否有依赖的字段
         if MyTestSuite.datas.get_request_depend_data(index) == 'access_token':
             token = file_operation.read_file('token.json')  # 请求的body需要token
+
+        # if get_data.getData().get_request_depend_data(index) == 'timestamp':
+        #     timestamp = int(round(time.time() * 1000))
 
         if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
             body = {'': ''}
@@ -61,7 +64,7 @@ class MyTestSuite(unittest.TestCase):
         except Exception as e:
             print('出错了:', e)
 
-        assert_that(response.status_code).is_equal_to(200) #接口状态200
+        # assert_that(response.status_code).is_equal_to(200) #接口状态200
         for i in range(len(except_data)):
             assert_that(response.text).contains(except_data[i])
 
