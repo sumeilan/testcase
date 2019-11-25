@@ -1,7 +1,7 @@
 import requests
 import unittest
 from base import HmacSHA256, file_operation
-import json, time
+import json
 from base import readConfig
 from ddt import ddt, data, unpack
 from assertpy import assert_that
