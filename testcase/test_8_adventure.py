@@ -13,7 +13,8 @@ class MyTestSuite(unittest.TestCase):
     cases_name = []
     cases_module = []
     cases_id = []
-    datas = get_data.getData(sheet_id=2)#登录模块
+    datas = get_data.getData(sheet_id=8)#漫剧
+    # 模块
     indexs = datas.get_case_count()
     for i in range(1, indexs):
         if datas.get_is_run(i):
@@ -49,13 +50,11 @@ class MyTestSuite(unittest.TestCase):
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-                datas = response.json()['data']
                 if MyTestSuite.datas.get_data_from_response(index) == 'access_token':
+                    datas = response.json()['data']
                     token = {'access_token': datas['access_token'], 'refresh_token': datas['refresh_token']}
                     file_operation.write_file(token, 'token.json')
-                if MyTestSuite.datas.get_data_from_response(index) == 'id':
-                    id = {'id':datas['id']}
-                    file_operation.write_file(id,'uid.json')
+
             else:
                 requests.get(url, params=body, headers=headers)
             print(response.text)
@@ -63,10 +62,9 @@ class MyTestSuite(unittest.TestCase):
         except Exception as e:
             print('出错了:', e)
 
-        # assert_that(response.status_code).is_equal_to(200) #接口状态200
+        assert_that(response.status_code).is_equal_to(200) #接口状态200
         for i in range(len(except_data)):
             assert_that(response.text).contains(except_data[i])
-
 
 if __name__ == '__main__':
     unittest.main()

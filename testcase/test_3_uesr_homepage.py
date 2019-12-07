@@ -60,7 +60,7 @@ class MyTestSuite(unittest.TestCase):
         except Exception as e:
             print('出错了:', e)
 
-        # assert_that(response.status_code).is_equal_to(200) #接口状态200
+        assert_that(response.status_code).is_equal_to(200) #接口状态200
         for i in range(len(except_data)):
             assert_that(response.text).contains(except_data[i])
 
