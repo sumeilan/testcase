@@ -10,6 +10,11 @@ def read_file(filename):
 		datas = json.load(load_f)
 	return datas
 
+def a_write_file(param,filename):
+	config_path = readConfig.ReadConfig.get_config_path('path')+'data\\'
+	with open(config_path + filename, "a") as f:
+		json.dump(param, f)
+
 def write_file(param,filename):
 	config_path = readConfig.ReadConfig.get_config_path('path')+'data\\'
 	with open(config_path + filename, "w") as f:
