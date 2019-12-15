@@ -16,5 +16,21 @@ def get_adventure_id(datas):
 		adv_obj = eval(data)
 		return adv_obj['obj_id']
 
+def get_external_picture_id(datas):
+	comic_pattern = r'\'type\': \'9\', \'obj_id\': \'[0-9_]+\''  # 模式字符串
+	match = re.findall(comic_pattern, str(datas), re.I)  # 匹配字符串不区分大小
+	if match:
+		data = '{' + str(match[0]) + '}'
+		adv_obj = eval(data)
+		return adv_obj['obj_id']
+
+def get_external_video_id(datas):
+	comic_pattern = r'\'type\': \'10\', \'obj_id\': \'[0-9_]+\''  # 模式字符串
+	match = re.findall(comic_pattern, str(datas), re.I)  # 匹配字符串不区分大小
+	if match:
+		data = '{' + str(match[0]) + '}'
+		adv_obj = eval(data)
+		return adv_obj['obj_id']
+
 if __name__ == '__main__':
 	pass

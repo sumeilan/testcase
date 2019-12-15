@@ -31,7 +31,7 @@ class MyTestSuite(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_invite_friend(self, index, casesname, module, id):
+    def test_user_homepage(self, index, casesname, module, id):
         # 判断测试用例是否有依赖的字段
         if MyTestSuite.datas.get_request_depend_data(index).find('access_token') >= 0:
             token = file_operation.read_file('token.json')  # 请求的body需要token
@@ -52,7 +52,6 @@ class MyTestSuite(unittest.TestCase):
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-
             else:
                 requests.get(url, params=body, headers=headers)
             print(response.text)

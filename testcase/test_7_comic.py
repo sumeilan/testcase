@@ -31,10 +31,12 @@ class MyTestSuite(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_invite_friend(self, index, casesname, module, id):
+    def test_comic(self, index, casesname, module, id):
         # 判断测试用例是否有依赖的字段
-        if MyTestSuite.datas.get_request_depend_data(index) == 'access_token':
+        if MyTestSuite.datas.get_request_depend_data(index).find('access_token')>=0:
             token = file_operation.read_file('token.json')  # 请求的body需要token
+        if MyTestSuite.datas.get_request_depend_data(index).find('comic_id')>0:
+            comic_id = file_operation.read_file('comic_id.json')  # 请求的body需要comic_id
 
         if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
             body = {'': ''}
@@ -49,10 +51,6 @@ class MyTestSuite(unittest.TestCase):
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-                if MyTestSuite.datas.get_data_from_response(index) == 'access_token':
-                    datas = response.json()['data']
-                    token = {'access_token': datas['access_token'], 'refresh_token': datas['refresh_token']}
-                    file_operation.write_file(token, 'token.json')
 
             else:
                 requests.get(url, params=body, headers=headers)

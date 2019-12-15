@@ -49,11 +49,6 @@ class MyTestSuite(unittest.TestCase):
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-                if MyTestSuite.datas.get_data_from_response(index) == 'access_token':
-                    datas = response.json()['data']
-                    token = {'access_token': datas['access_token'], 'refresh_token': datas['refresh_token']}
-                    file_operation.write_file(token, 'token.json')
-
             else:
                 requests.get(url, params=body, headers=headers)
             print(response.text)

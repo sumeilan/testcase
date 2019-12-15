@@ -31,13 +31,10 @@ class MyTestSuite(unittest.TestCase):
 
 	@unpack
 	@data(*cases)
-	def test_invite_friend(self, index, casesname, module, id):
+	def test_homepage(self, index, casesname, module, id):
 		# 判断测试用例是否有依赖的字段
 		if MyTestSuite.datas.get_request_depend_data(index) == 'access_token':
 			token = file_operation.read_file('token.json')  # 请求的body需要token
-
-		# if get_data.getData().get_request_depend_data(index) == 'timestamp':
-		#     timestamp = int(round(time.time() * 1000))
 
 		if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
 			body = {'': ''}
@@ -53,22 +50,23 @@ class MyTestSuite(unittest.TestCase):
 			if MyTestSuite.datas.get_request_method(index) == 'post':
 				response = requests.post(url, json=body, headers=headers, verify=False)
 				datas = response.json()['data']['list']
-				# print(datas)
+				print(response.text)
 				if MyTestSuite.datas.get_data_from_response(index) == 'obj_id':
 					if get_id.get_comic_id(datas):
-						print(get_id.get_comic_id(datas))
+						# print(get_id.get_comic_id(datas))
 						comic_id = {'comic_id': get_id.get_comic_id(datas)}
 						file_operation.write_file(comic_id, 'comic_id.json')
 					if get_id.get_adventure_id(datas):
-						print(get_id.get_adventure_id(datas))
+						# print(get_id.get_adventure_id(datas))
 						adventure_id = {'adventure_id': get_id.get_adventure_id(datas)}
 						file_operation.write_file(adventure_id, 'adventure_id.json')
-
-
+					if get_id.get_external_picture_id(datas):
+						print(get_id.get_external_picture_id(datas))
+						external_picture_id = {'adventure_id': get_id.get_external_picture_id(datas)}
+						file_operation.write_file(external_picture_id, 'external_picture_id.json')
 
 			else:
 				requests.get(url, params=body, headers=headers)
-			# print(response.text)
 
 		except Exception as e:
 			print('出错了:', e)
