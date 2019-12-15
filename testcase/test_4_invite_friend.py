@@ -43,12 +43,17 @@ class MyTestSuite(unittest.TestCase):
 
         Authorization = HmacSHA256.sh258(json.dumps(body))  # 请求头需要Authorization
         headers = eval(MyTestSuite.datas.get_request_headers(index))
+        print(headers)
         path = MyTestSuite.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
         except_data = MyTestSuite.datas.get_expect_data(index)
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
+                datas = response.json()['data']
+                if MyTestSuite.datas.get_data_from_response(index) == 'access_token':
+                    token = {'access_token': datas['access_token'], 'refresh_token': datas['refresh_token']}
+                    file_operation.write_file(token, 'token.json')
             else:
                 requests.get(url, params=body, headers=headers)
             print(response.text)

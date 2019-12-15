@@ -13,7 +13,7 @@ class MyTestSuite(unittest.TestCase):
     cases_name = []
     cases_module = []
     cases_id = []
-    datas = get_data.getData(sheet_id=5)#直播模块
+    datas = get_data.getData(sheet_id=6)#内容创作
     indexs = datas.get_case_count()
     for i in range(1, indexs):
         if datas.get_is_run(i):
@@ -31,12 +31,10 @@ class MyTestSuite(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_livebroadcas(self, index, casesname, module, id):
+    def test_create(self, index, casesname, module, id):
         # 判断测试用例是否有依赖的字段
         if MyTestSuite.datas.get_request_depend_data(index).find('access_token')>=0:
             token = file_operation.read_file('token.json')  # 请求的body需要token
-        if MyTestSuite.datas.get_request_depend_data(index).find('live_id')>0:
-            live_id = file_operation.read_file('live_id.json')  # 请求的body需要token
 
         if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
             body = {'': ''}
@@ -51,11 +49,6 @@ class MyTestSuite(unittest.TestCase):
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-                datas = response.json()['data']
-                if MyTestSuite.datas.get_data_from_response(index) == 'live_id':
-                    live_id = {'live_id': datas['live_id']}
-                    file_operation.write_file(live_id, 'live_id.json')
-
             else:
                 requests.get(url, params=body, headers=headers)
             print(response.text)
@@ -64,8 +57,6 @@ class MyTestSuite(unittest.TestCase):
             print('出错了:', e)
 
         assert_that(response.status_code).is_equal_to(200) #接口状态200
-        assert_that(response.text).contains('"code":0')
-
         for i in range(len(except_data)):
             assert_that(response.text).contains(except_data[i])
 

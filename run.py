@@ -61,4 +61,4 @@ if __name__ == '__main__':
 
     test_report = root + "\\report"
     rep = report(test_report)
-    # send_email(rep)
+    send_email(rep)
