@@ -34,7 +34,6 @@ class getData:
         module = self.opera_excel.get_cell_value(row, col)
         return module
 
-
     # 获取是否执行
     def get_is_run(self, row):
         flag = None
@@ -96,12 +95,19 @@ class getData:
         expect_data = new.split(',')
         return expect_data
 
+    # 获取实际结果
+    def get_actual_data(self,row):
+        col = int(data_config.get_actual_result())
+        actual_data = self.opera_excel.get_cell_value(row,col)
+        return actual_data
+
     #通过sql 获取预期结果
     def get_expect_data_for_mysql(self,row):
         pass
 
 if __name__ == '__main__':
-    datas = getData(sheet_id=1).get_module(2)
+    # datas = getData(sheet_id=2).get_module(1)
+    datas = getData(sheet_id=2).get_actual_data(1)
     print(datas)
 
 

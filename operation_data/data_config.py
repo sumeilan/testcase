@@ -1,6 +1,5 @@
 # coding:utf-8
 class global_var:
-    # case_id
     case_id = '0'
     case_name = '1'
     module = '2'
@@ -47,6 +46,10 @@ def get_request_parameter():
 def get_expect_result():
     return global_var.expect_result
 
+#获取实际结果
+def get_actual_result():
+    return global_var.actual_result
+
 #需要从返回结果中保存的字段
 def get_data_from_response():
     return global_var.data_from_response
@@ -59,6 +62,9 @@ def get_request_depend_data():
 def get_is_run():
     return global_var.is_run
 
+#获取测试结果
+def get_is_pass():
+    return global_var.is_pass
 
 
 

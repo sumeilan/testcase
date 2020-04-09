@@ -13,7 +13,7 @@ class OperationExcel:
             self.sheet_id = sheet_id
         else:
             root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-            self.file_name = root + '\data\case2.xlsx'
+            self.file_name = root + '\data\case.xlsx'
             self.sheet_id = sheet_id
             self.data = self.get_data()
 
@@ -24,7 +24,7 @@ class OperationExcel:
         for sheet in data.sheets():
             i =i+1
             if sheet.name == sheet_name:
-                print(str(i) + sheet.name)
+                print(sheet.name)
                 self.sheet_id = i
                 print('根据sheet名称获得id')
                 print( self.sheet_id)
@@ -53,7 +53,7 @@ class OperationExcel:
         '''
         read_data = xlrd.open_workbook(self.file_name)
         write_data = copy(read_data)
-        sheet_data = write_data.get_sheet(0)
+        sheet_data = write_data.get_sheet(2)
         sheet_data.write(row, col, value)
         write_data.save(self.file_name)
 
@@ -86,8 +86,9 @@ class OperationExcel:
             cols = self.data.col_values(0)
         return cols
 
+
 if __name__ == '__main__':
     opers = OperationExcel()
-    # sheet_id = opers.get_sheet_id('邀请好友注册')
-    # # print(opers.get_lines())
-    # print(opers.get_data())
+    # sheet_id = opers.get_sheet_id('首页')
+    # print(opers.get_lines())
+    print(opers.write_value())

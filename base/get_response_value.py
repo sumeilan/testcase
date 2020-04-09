@@ -28,11 +28,11 @@ def _get_value(key, val, tmp_list):
         if isinstance(val_, dict):
             get_target_value(key, val_, tmp_list)  # 传入数据的value值是字典，则调用get_target_value
         elif isinstance(val_, (list, tuple)):
-            _get_value(key, val_, tmp_list)   # 传入数据的value值是列表或者元组，则调用自身
+            _get_value(key, val_, tmp_list)  # 传入数据的value值是列表或者元组，则调用自身
 
 
 if __name__ == '__main__':
-	test_dic = {'a': '1', 'b': '2', 'c': {
-		'd': [{'e': [{'f': [{'v': [{'g': '6'}, [{'g': '7'}, [{'g': 8}]]]}, 'm']}]}, 'h', {'g': [10, 12]}]}}
+    test_dic = {'a': '1', 'b': '2', 'c': {
+        'd': [{'e': [{'f': [{'v': [{'g': '6'}, [{'g': '7'}, [{'g': 8}]]]}, 'm']}]}, 'h', {'g': [10, 12]}]}}
 
-	print('a',get_target_value('a',test_dic,[]))
+    print('a', get_target_value('a', test_dic, []))

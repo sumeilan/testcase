@@ -5,7 +5,7 @@ def merge_sheets():
     # root = os.getcwd() #获取当前路径
     root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))  # 获取当前的上一级路径
     path = root + '\data\case1.xlsx'
-    new_path = root + '\data\case2.xlsx'
+    new_path = root + '\data\case.xlsx'
     iris = pd.read_excel(path, None)  # 读入数据文件
     keys = list(iris.keys())
     # 第三步：数据合并
