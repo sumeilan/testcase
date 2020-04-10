@@ -7,7 +7,6 @@ from ddt import ddt, data, unpack
 from assertpy import assert_that
 from operation_data import get_data, set_data
 
-
 @ddt
 class MyTestSuite(unittest.TestCase):
     cases_index = []
@@ -54,7 +53,7 @@ class MyTestSuite(unittest.TestCase):
                 response = requests.post(url, json=body, headers=headers, verify=False)
                 datas = response.json()['data']['list']
                 MyTestSuite.result.set_actual_data(index,str(response.json()))  # 将实际结果写入excel
-                # print(json.dumps(response.json(), ensure_ascii=False, sort_keys=True, indent=2))
+                # print(json.dumps(response.json(), ensure_ascii=False, sort_keys=True, indent=2))  #格式化显示返回的数据
                 if MyTestSuite.datas.get_data_from_response(index) == 'obj_id':
                     if get_id.get_comic_id(datas):
                         comic_id = {'comic_id': get_id.get_comic_id(datas)}

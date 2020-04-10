@@ -1,11 +1,9 @@
-import requests
-import unittest
+import requests,unittest,json
 from base import HmacSHA256, file_operation
-import json,time
 from base import readConfig
 from ddt import ddt, data, unpack
 from assertpy import assert_that
-from operation_data import get_data
+from operation_data import get_data, set_data
 
 @ddt
 class MyTestSuite(unittest.TestCase):

@@ -1,7 +1,7 @@
 # coding:utf-8
 from operation_tool.operation_excel import OperationExcel
 from operation_data import data_config
-from operation_data import get_data
+import xlwt
 
 
 class setData:
