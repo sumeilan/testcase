@@ -10,14 +10,14 @@ class setData:
         self.opera_excel = OperationExcel(sheet_id=sheet_id)
 
     # 写入实际结果
-    def set_actual_data(self, row, value):
+    def set_actual_data(self, sheet_id,row, value):
         col = int(data_config.get_actual_result())
-        self.opera_excel.write_value(row, col, value)
+        self.opera_excel.write_value(sheet_id,row+1, col+1, value)
 
     #写入测试结果
-    def set_pass_fail(self, row, value):
+    def set_pass_fail(self, sheet_id,row, value):
         col = int(data_config.get_is_pass())
-        self.opera_excel.write_value(row, col, value)
+        self.opera_excel.write_value(sheet_id,row+1, col+1, value)
 
 if __name__ == '__main__':
     row = 1

@@ -9,13 +9,14 @@ from operation_data import get_data, set_data
 
 @ddt
 class MyTestSuite(unittest.TestCase):
+    globals()['sheet_id'] = 2
     cases_index = []
     cases_name = []
     cases_module = []
     cases_id = []
-    datas = get_data.getData(sheet_id=2)  # 首页模块
+    datas = get_data.getData(globals()['sheet_id'])  # 首页模块
     indexs = datas.get_case_count()
-    result = set_data.setData(sheet_id=2)
+    result = set_data.setData(globals()['sheet_id'])
     for i in range(1, indexs):
         if datas.get_is_run(i):
             cases_index.append(i)
@@ -52,7 +53,7 @@ class MyTestSuite(unittest.TestCase):
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
                 datas = response.json()['data']['list']
-                MyTestSuite.result.set_actual_data(index,str(response.json()))  # 将实际结果写入excel
+                MyTestSuite.result.set_actual_data(globals()['sheet_id'],index,str(response.json()))  # 将实际结果写入excel
                 # print(json.dumps(response.json(), ensure_ascii=False, sort_keys=True, indent=2))  #格式化显示返回的数据
                 if MyTestSuite.datas.get_data_from_response(index) == 'obj_id':
                     if get_id.get_comic_id(datas):
@@ -74,7 +75,7 @@ class MyTestSuite(unittest.TestCase):
         assert_that(response.status_code).is_equal_to(200)  # 接口状态200
         for i in range(len(except_data)):
             if assert_that(response.text).contains(except_data[i]).is_true():
-                MyTestSuite.result.set_pass_fail(index, 'pass')  # 写入测试结果
+                MyTestSuite.result.set_pass_fail(globals()['sheet_id'],index, 'pass')  # 写入测试结果
 
 if __name__ == '__main__':
     unittest.main()

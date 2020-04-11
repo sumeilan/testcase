@@ -5,6 +5,7 @@ import pandas as pd
 from xlutils3.copy import copy
 from operation_data import merge_sheets
 from openpyxl  import load_workbook
+from operation_tool import format_excel
 
 class OperationExcel:
 
@@ -14,7 +15,7 @@ class OperationExcel:
             self.sheet_id = sheet_id
         else:
             root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-            self.file_name = root + '\\data\\wo.xlsx'
+            self.file_name = root + '\\data\\case1.xlsx'
             self.sheet_id = sheet_id
             self.data = self.get_data()
 
@@ -47,7 +48,7 @@ class OperationExcel:
         return self.data.cell_value(row, col)
 
     # 写入数据
-    def write_value(self, row, col, value):
+    def write_value(self,sheet_id, row, col, value):
         '''
         写入excel数据
         row,col,value
@@ -58,9 +59,10 @@ class OperationExcel:
         # sheet_data.write(row, col, value)
         # write_data.save(self.file_name)
         wb = load_workbook(self.file_name)
-        sheet1 = wb.worksheets[0]
+        sheet1 = wb.worksheets[sheet_id]
         sheet1.cell(row,col,value)
         wb.save(self.file_name)
+        format_excel.format_excel(self.file_name)
 
     # 根据对应的caseid 找到对应行的内容
     def get_rows_data(self, case_id):
