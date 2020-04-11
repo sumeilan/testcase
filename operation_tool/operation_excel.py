@@ -1,11 +1,9 @@
 # coding:utf-8
 import xlrd
 import os
-import pandas as pd
-from xlutils3.copy import copy
-from operation_data import merge_sheets
 from openpyxl  import load_workbook
 from operation_tool import format_excel
+
 
 class OperationExcel:
 

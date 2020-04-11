@@ -1,17 +1,21 @@
 from openpyxl.styles import Font
 import openpyxl
 from openpyxl.styles import Alignment
+import os
 
 def format_excel(file):
     workbook = openpyxl.load_workbook(filename=file)
     sheets = workbook.worksheets
 
     for sheet in sheets:
-        keys = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N']
+        skeys = ['A', 'C',  'E', 'I',  'L', 'M']
+        lkeys = ['B', 'D', 'F', 'G', 'H', 'J', 'K']
         align = Alignment(horizontal='center', vertical='center', wrap_text=True)
         font = Font(name='黑体', size=10, bold=False, italic=False, color='000000')
-        for key in keys:
-            sheet.column_dimensions[key].width = 14
+        for s in skeys:
+            sheet.column_dimensions[s].width = 9
+        for l in lkeys:
+            sheet.column_dimensions[l].width = 19
 
         for index in range(0, sheet.max_row):
             for cell in list(sheet.rows)[index]:
@@ -22,5 +26,7 @@ def format_excel(file):
 
     workbook.save(file)
 
-
-
+if __name__ == '__main__':
+    root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    file_name = root + '\\data\\case1.xlsx'
+    format_excel(file_name)

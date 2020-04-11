@@ -44,6 +44,7 @@ class MyTestSuite(unittest.TestCase):
             body = eval(MyTestSuite.datas.get_request_parameter(index))
 
         Authorization = HmacSHA256.sh258(json.dumps(body))  # 请求头需要Authorization
+        biData = str(file_operation.read_file('biD.json'))
         headers = eval(MyTestSuite.datas.get_request_headers(index))
         path = MyTestSuite.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
@@ -55,16 +56,9 @@ class MyTestSuite(unittest.TestCase):
                 datas = response.json()['data']['list']
                 MyTestSuite.result.set_actual_data(globals()['sheet_id'],index,str(response.json()))  # 将实际结果写入excel
                 # print(json.dumps(response.json(), ensure_ascii=False, sort_keys=True, indent=2))  #格式化显示返回的数据
-                if MyTestSuite.datas.get_data_from_response(index) == 'obj_id':
-                    if get_id.get_comic_id(datas):
-                        comic_id = {'comic_id': get_id.get_comic_id(datas)}
-                        file_operation.write_file(comic_id, 'comic_id.json')
-                    if get_id.get_adventure_id(datas):
-                        adventure_id = {'adventure_id': get_id.get_adventure_id(datas)}
-                        file_operation.write_file(adventure_id, 'adventure_id.json')
+                if MyTestSuite.datas.get_data_from_response(index) == 'obj_id':    #需要保存的返回字段
                     if get_id.get_external_picture_id(datas):
-                        print(get_id.get_external_picture_id(datas))
-                        external_picture_id = {'adventure_id': get_id.get_external_picture_id(datas)}
+                        external_picture_id = {'external_picture_id': get_id.get_external_picture_id(datas)}
                         file_operation.write_file(external_picture_id, 'external_picture_id.json')
             else:
                 requests.get(url, params=body, headers=headers)
