@@ -1,15 +1,14 @@
 import requests
 import unittest
-from base import HmacSHA256, file_operation
+from base import HmacSHA256, file_operation, result_assert
 import json
 from base import readConfig, get_id
 from ddt import ddt, data, unpack
-from assertpy import assert_that
 from operation_data import get_data, set_data
 
 @ddt
 class MyTestSuite(unittest.TestCase):
-    globals()['sheet_id'] = 2
+    globals()['sheet_id'] = 1
     cases_index = []
     cases_name = []
     cases_module = []
@@ -26,7 +25,7 @@ class MyTestSuite(unittest.TestCase):
     cases = list(zip(cases_index, cases_name, cases_module, cases_id))
 
     def setUp(self):
-        pass
+        globals()['result'] = 'fail'
 
     def tearDown(self):
         pass
@@ -35,9 +34,6 @@ class MyTestSuite(unittest.TestCase):
     @data(*cases)
     def test_homepage(self, index, casesname, module, id):
         # 判断测试用例是否有依赖的字段
-        if MyTestSuite.datas.get_request_depend_data(index) == 'access_token':
-            token = file_operation.read_file('token.json')  # 请求的body需要token
-
         if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
             body = {'': ''}
         else:
@@ -53,23 +49,26 @@ class MyTestSuite(unittest.TestCase):
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-                datas = response.json()['data']['list']
+                datas = response.json()['data']
                 MyTestSuite.result.set_actual_data(globals()['sheet_id'],index,str(response.json()))  # 将实际结果写入excel
                 # print(json.dumps(response.json(), ensure_ascii=False, sort_keys=True, indent=2))  #格式化显示返回的数据
                 if MyTestSuite.datas.get_data_from_response(index) == 'obj_id':    #需要保存的返回字段
-                    if get_id.get_external_picture_id(datas):
-                        external_picture_id = {'external_picture_id': get_id.get_external_picture_id(datas)}
+                    if get_id.get_external_picture_id(datas['list']):
+                        external_picture_id = {'external_picture_id': get_id.get_external_picture_id(datas['list'])}
                         file_operation.write_file(external_picture_id, 'external_picture_id.json')
             else:
                 requests.get(url, params=body, headers=headers)
 
         except Exception as e:
-            print('执行报错啦:', e)
+            globals()['result'] = '报错啦'
+            MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(e))
+            MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
-        assert_that(response.status_code).is_equal_to(200)  # 接口状态200
-        for i in range(len(except_data)):
-            if assert_that(response.text).contains(except_data[i]).is_true():
-                MyTestSuite.result.set_pass_fail(globals()['sheet_id'],index, 'pass')  # 写入测试结果
+        MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
+        result = result_assert.result_assert(response.text,response.status_code,except_data) #断言，判断接口状态和预期结果
+        if result == 'pass':
+            globals()['result'] = 'pass'
+            MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 更新为测试通过
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,15 +1,16 @@
 import requests
 import unittest
-from base import HmacSHA256, file_operation, result_assert
-import json, time
-from base import readConfig, get_id
+from base import HmacSHA256, file_operation,result_assert
+import json
+from base import readConfig
 from ddt import ddt, data, unpack
+from assertpy import assert_that
 from operation_data import get_data, set_data
 
 
 @ddt
 class MyTestSuite(unittest.TestCase):
-	globals()['sheet_id'] = 0  # app通用
+	globals()['sheet_id'] = 2  # 注册登录
 	cases_index = []
 	cases_name = []
 	cases_module = []
@@ -33,10 +34,10 @@ class MyTestSuite(unittest.TestCase):
 
 	@unpack
 	@data(*cases)
-	def test_app_common(self, index, casesname, module, id):
+	def test_user_login(self, index, casesname, module, id):
 		# 判断测试用例是否有依赖的字段
-		if MyTestSuite.datas.get_request_depend_data(index) == 'timestamp':
-			timestamp = int(round(time.time() * 1000))
+		if MyTestSuite.datas.get_request_depend_data(index) == 'access_token':
+			token = file_operation.read_file('token.json')['access_token']  # 请求的body需要token
 		if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
 			body = {'': ''}
 		else:
@@ -49,15 +50,17 @@ class MyTestSuite(unittest.TestCase):
 		path = MyTestSuite.datas.get_request_url(index)
 		url = readConfig.ReadConfig.get_http('baseurl') + path
 		except_data = MyTestSuite.datas.get_expect_data(index)
-
 		try:
 			if MyTestSuite.datas.get_request_method(index) == 'post':
 				response = requests.post(url, json=body, headers=headers, verify=False)
 				datas = response.json()['data']
 				MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
-				if MyTestSuite.datas.get_data_from_response(index) == 'guest_id':
-					id = {'X-Token': datas['guest_id']}
-					file_operation.write_file(id, 'XToken.json')
+				if MyTestSuite.datas.get_data_from_response(index) == 'access_token':
+					token = {'access_token': datas['access_token'], 'refresh_token': datas['refresh_token']}
+					file_operation.write_file(token, 'token.json')
+				if MyTestSuite.datas.get_data_from_response(index) == 'id':
+					id = {'id': datas['id']}
+					file_operation.write_file(id, 'uid.json')
 			else:
 				requests.get(url, params=body, headers=headers)
 
