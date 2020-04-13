@@ -9,7 +9,7 @@ from operation_data import get_data,set_data
 
 @ddt
 class MyTestSuite(unittest.TestCase):
-    globals()['sheet_id'] = 3  # app通用
+    globals()['sheet_id'] = 3  # 个人空间
     cases_index = []
     cases_name = []
     cases_module = []
@@ -39,8 +39,8 @@ class MyTestSuite(unittest.TestCase):
             if MyTestSuite.datas.get_request_depend_data(index).find('access_token') >= 0:
                 token = file_operation.read_file('token.json')['access_token']  # 请求的body需要token
 
-            if MyTestSuite.datas.get_request_depend_data(index).find('id') >= 0:
-                id = file_operation.read_file('uid.json')['id']  # 请求的body需要id
+            if MyTestSuite.datas.get_request_depend_data(index).find('uid') >= 0:
+                uid = file_operation.read_file('ids.json')['uid']  # 请求的body需要id
 
         if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
             body = {'': ''}
@@ -49,7 +49,8 @@ class MyTestSuite(unittest.TestCase):
 
         Authorization = HmacSHA256.sh258(json.dumps(body))  # 请求头需要Authorization
         biData = str(file_operation.read_file('biD.json'))
-        XToken = file_operation.read_file('XToken.json')['X-Token']
+        XToken = file_operation.read_file('token.json')['X-Token']
+        versionCode = readConfig.ReadConfig.get_http('versionCode')
         headers = eval(MyTestSuite.datas.get_request_headers(index))
         path = MyTestSuite.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
@@ -64,7 +65,7 @@ class MyTestSuite(unittest.TestCase):
 
         except Exception as e:
             globals()['result'] = '报错啦'
-            print('报错啦')
+            print('报错啦',e)
             MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(e))
             MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
