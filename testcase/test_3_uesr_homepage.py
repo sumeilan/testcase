@@ -59,9 +59,9 @@ class MyTestSuite(unittest.TestCase):
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
                 datas = response.json()['data']
-                MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
             else:
-                requests.get(url, params=body, headers=headers)
+                response = requests.get(url, params=body, headers=headers)
+            MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
 
         except Exception as e:
             globals()['result'] = '报错啦'
