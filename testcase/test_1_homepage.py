@@ -57,6 +57,9 @@ class MyTestSuite(unittest.TestCase):
                     if get_id.get_external_picture_id(datas['list']):
                         external_picture_id = {'external_picture_id': get_id.get_external_picture_id(datas['list'])}
                         file_operation.zhui_write_file(external_picture_id, 'ids.json')
+                    if get_id.get_external_video_id(datas['list']):
+                        external_video_id = {'external_video_id': get_id.get_external_video_id(datas['list'])}
+                        file_operation.zhui_write_file(external_video_id, 'ids.json')
             else:
                 response = requests.get(url, params=body, headers=headers)
             MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
