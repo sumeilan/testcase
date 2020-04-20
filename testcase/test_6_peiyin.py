@@ -7,7 +7,7 @@ from operation_data import get_data,set_data
 
 @ddt
 class MyTestSuite(unittest.TestCase):
-    globals()['sheet_id'] = 5  #cos
+    globals()['sheet_id'] = 6  #配音
     cases_index = []
     cases_name = []
     cases_module = []
@@ -55,9 +55,7 @@ class MyTestSuite(unittest.TestCase):
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
                 datas = response.json()['data']
-                if MyTestSuite.datas.get_data_from_response(index) == 'obj_id':
-                    release_id = {'release_id': datas['obj_id']}
-                    file_operation.zhui_write_file(release_id, 'ids.json')
+
             else:
                 response = requests.get(url, params=body, headers=headers)
             MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
