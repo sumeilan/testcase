@@ -36,6 +36,7 @@ class MyTestSuite(unittest.TestCase):
     def test_user_homepage(self, index, casesname, module, id):
         # 判断测试用例是否有依赖的字段
         if MyTestSuite.datas.get_request_depend_data(index) is not None:
+            print(MyTestSuite.datas.get_request_depend_data(index))
             if MyTestSuite.datas.get_request_depend_data(index).find('access_token') >= 0:
                 token = file_operation.read_file('token.json')['access_token']  # 请求的body需要token
 
@@ -61,11 +62,12 @@ class MyTestSuite(unittest.TestCase):
                 datas = response.json()['data']
             else:
                 response = requests.get(url, params=body, headers=headers)
+            print(response.text)
             MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
 
         except Exception as e:
             globals()['result'] = '报错啦'
-            print('报错啦',e)
+            print('报错啦',response.text)
             MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(e))
             MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
