@@ -38,6 +38,7 @@ class TestHomePage(unittest.TestCase):
         url = readConfig.ReadConfig.get_http('baseurl') + path
         except_data = TestHomePage.datas.get_expect_data(index)
 
+
         try:
             if TestHomePage.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
@@ -52,6 +53,9 @@ class TestHomePage(unittest.TestCase):
             TestHomePage.result.set_actual_data(globals()['sheet_id'], index, str(e))
             TestHomePage.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
+        print(headers)
+        print(body)
+        print(response.text)
         TestHomePage.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
         result = result_assert.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
         if result == 'pass':

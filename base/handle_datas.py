@@ -82,7 +82,6 @@ class handleDatas:
         XToken = file_operation.read_file('token.json')['X-Token']
         versionCode = readConfig.ReadConfig.get_http('versionCode')
         accessToken = file_operation.read_file('token.json')['access_token']
-
         headers = eval(self.datas.get_request_headers(index))
 
         return headers
