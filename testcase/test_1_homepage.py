@@ -38,24 +38,23 @@ class TestHomePage(unittest.TestCase):
         url = readConfig.ReadConfig.get_http('baseurl') + path
         except_data = TestHomePage.datas.get_expect_data(index)
 
-
         try:
             if TestHomePage.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
+
             else:
                 response = requests.get(url, params=body, headers=headers)
 
+            print(response.text)
             handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
             TestHomePage.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
+
 
         except Exception as e:
             globals()['result'] = '报错啦'
             TestHomePage.result.set_actual_data(globals()['sheet_id'], index, str(e))
             TestHomePage.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
-        print(headers)
-        print(body)
-        print(response.text)
         TestHomePage.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
         result = result_assert.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
         if result == 'pass':

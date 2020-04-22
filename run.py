@@ -16,7 +16,7 @@ def send_email(filename):
     mail_pass = 'pwitsrzesjesbebc'  # 密码
 
     sender = '912041511@qq.com'  # 发送邮件名
-    receivers = ['912041511@qq.com']
+    receivers = ['sumeilan@dreampix.cn']
     message = MIMEMultipart('related')
 
     f = open(filename, 'rb')

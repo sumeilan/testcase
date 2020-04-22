@@ -10,6 +10,7 @@ def read_file(filename):
     try:
         with open(config_path + filename, 'r') as load_f:
             datas = json.load(load_f)
+            # datas = load_f
     except Exception as e:
         print('报错了，检查是否空文件')
     return datas

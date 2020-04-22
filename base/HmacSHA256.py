@@ -31,5 +31,6 @@ if __name__ == '__main__':
     body = {'page': '1', 'pageSize': '20', 'app_key': 'lemondream'}
     body1 = {'': ''}
     print(type(body1))
-    A = sh256(json.dumps(body1))
-    print(A)
+    print(body)
+    A = sh256(json.dumps(body))
+    print(json.dumps(body))
