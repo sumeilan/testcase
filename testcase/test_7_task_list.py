@@ -1,13 +1,13 @@
-import requests
-import unittest
-from base import HmacSHA256, file_operation,readConfig,result_assert
-import json,time
+import requests, unittest
+from base import result_assert
+from base import readConfig, handle_datas
 from ddt import ddt, data, unpack
-from operation_data import get_data,set_data
+from operation_data import get_data, set_data
+
 
 @ddt
 class MyTestSuite(unittest.TestCase):
-    globals()['sheet_id'] = 7  #赚青柠任务
+    globals()['sheet_id'] = 7 # app通用
     cases_index = []
     cases_name = []
     cases_module = []
@@ -32,25 +32,8 @@ class MyTestSuite(unittest.TestCase):
     @unpack
     @data(*cases)
     def test_task_list(self, index, casesname, module, id):
-        # 判断测试用例是否有依赖的字段
-        if MyTestSuite.datas.get_request_depend_data(index) is not None:
-            if MyTestSuite.datas.get_request_depend_data(index).find('access_token') >= 0:
-                print(MyTestSuite.datas.get_request_depend_data(index),type(MyTestSuite.datas.get_request_depend_data(index)))
-                token = file_operation.read_file('token.json')['access_token']  # 请求的body需要token
-            if MyTestSuite.datas.get_request_depend_data(index).find('external_picture_id') >= 0:
-                external_picture_id = file_operation.read_file('ids.json')['external_picture_id']
-
-        if len(MyTestSuite.datas.get_request_parameter(index)) == 0:
-            body = {'': ''}
-        else:
-            body = eval(MyTestSuite.datas.get_request_parameter(index))
-
-        Authorization = HmacSHA256.sh258(json.dumps(body))  # 请求头需要Authorization
-        biData = str(file_operation.read_file('biD.json'))
-        accessToken = file_operation.read_file('token.json')['access_token']
-        XToken = file_operation.read_file('token.json')['X-Token']
-        versionCode = readConfig.ReadConfig.get_http('versionCode')
-        headers = eval(MyTestSuite.datas.get_request_headers(index))
+        body = handle_datas.handleDatas(globals()['sheet_id']).get_request_parameter(index)
+        headers = handle_datas.handleDatas(globals()['sheet_id']).get_request_headers(index, body)
         path = MyTestSuite.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
         except_data = MyTestSuite.datas.get_expect_data(index)
@@ -58,15 +41,15 @@ class MyTestSuite(unittest.TestCase):
         try:
             if MyTestSuite.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
-
             else:
                 response = requests.get(url, params=body, headers=headers)
+
+            handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
             MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
 
         except Exception as e:
             globals()['result'] = '报错啦'
-            print('报错啦', response.text)
-            MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))
+            MyTestSuite.result.set_actual_data(globals()['sheet_id'], index, str(e))
             MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
         MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
@@ -74,6 +57,7 @@ class MyTestSuite(unittest.TestCase):
         if result == 'pass':
             globals()['result'] = 'pass'
             MyTestSuite.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 更新为测试通过
+
 
 if __name__ == '__main__':
     unittest.main()
