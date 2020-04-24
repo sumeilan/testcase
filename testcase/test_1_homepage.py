@@ -45,7 +45,6 @@ class TestHomePage(unittest.TestCase):
             else:
                 response = requests.get(url, params=body, headers=headers)
 
-            print(response.text)
             handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
             TestHomePage.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
 

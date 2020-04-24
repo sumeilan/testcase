@@ -84,13 +84,11 @@ class handleDatas:
         versionCode = readConfig.ReadConfig.get_http('versionCode')
         accessToken = file_operation.read_file('token.json')['access_token']
         headers = eval(self.datas.get_request_headers(index))
-
         return headers
 
     # 需要请返回数据中保存字段
     def get_data_from_response(self, index, datas):
         response_data = self.datas.get_data_from_response(index)
-
         if response_data is not None:
             if response_data == 'guest_id':
                 if datas['data'][response_data]:
@@ -126,11 +124,11 @@ class handleDatas:
             if response_data == 'trace_release_id':
                 if get_id.get_release_picture_id(datas):
                     trace_release_pid = {'trace_release_pid': get_id.get_release_picture_id(datas)}
-                    print('trace_release_pid', trace_release_pid)
+                    # print('trace_release_pid', trace_release_pid)
                     file_operation.zhui_write_file(trace_release_pid, 'ids.json')
                 if get_id.get_release_video_id(datas):
                     trace_release_vid = {'trace_release_vid': get_id.get_release_video_id(datas)}
-                    print('trace_release_vid', trace_release_vid)
+                    # print('trace_release_vid', trace_release_vid)
                     file_operation.zhui_write_file(trace_release_vid, 'ids.json')
 
         else:

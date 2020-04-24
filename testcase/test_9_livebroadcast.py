@@ -6,8 +6,8 @@ from operation_data import get_data, set_data
 
 
 @ddt
-class TestReleaseContent(unittest.TestCase):
-    globals()['sheet_id'] = 4  # app通用
+class TestPeiyin(unittest.TestCase):
+    globals()['sheet_id'] = 9# 直播
     cases_index = []
     cases_name = []
     cases_module = []
@@ -31,33 +31,32 @@ class TestReleaseContent(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_release_content(self, index, casesname, module, id):
+    def test_peiyin(self, index, casesname, module, id):
         body = handle_datas.handleDatas(globals()['sheet_id']).get_request_parameter(index)
         headers = handle_datas.handleDatas(globals()['sheet_id']).get_request_headers(index, body)
-        path = TestReleaseContent.datas.get_request_url(index)
+        path = TestPeiyin.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
-        except_data = TestReleaseContent.datas.get_expect_data(index)
+        except_data = TestPeiyin.datas.get_expect_data(index)
 
         try:
-            if TestReleaseContent.datas.get_request_method(index) == 'post':
+            if TestPeiyin.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
             else:
                 response = requests.get(url, params=body, headers=headers)
 
-            # print(response.text)
             handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
-            TestReleaseContent.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
+            TestPeiyin.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
 
         except Exception as e:
             globals()['result'] = '报错啦'
-            TestReleaseContent.result.set_actual_data(globals()['sheet_id'], index, str(e))
-            TestReleaseContent.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
+            TestPeiyin.result.set_actual_data(globals()['sheet_id'], index, str(e))
+            TestPeiyin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
-        TestReleaseContent.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
+        TestPeiyin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
         result = result_assert.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
         if result == 'pass':
             globals()['result'] = 'pass'
-            TestReleaseContent.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 更新为测试通过
+            TestPeiyin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 更新为测试通过
 
 
 if __name__ == '__main__':
