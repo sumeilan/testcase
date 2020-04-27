@@ -49,8 +49,9 @@ class TestUserLogin(unittest.TestCase):
 
         except Exception as e:
             globals()['result'] = '报错啦'
-            TestUserLogin.result.set_actual_data(globals()['sheet_id'], index, str(e))
+            TestUserLogin.result.set_actual_data(globals()['sheet_id'], index, response.text)
             TestUserLogin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
+        # print(response.text)
 
         TestUserLogin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
         result = result_assert.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果

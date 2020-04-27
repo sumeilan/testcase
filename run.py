@@ -55,7 +55,7 @@ if __name__ == '__main__':
     filename = root + '\\report\\' + now + '_result.html'
     fp = open(filename, "wb")
     runner = HTMLTestRunnerCN.HTMLTestRunner(
-        stream=fp, title='接口自动构建测试报告', description='测试结果如下')
+        stream=fp, title='接口测试报告', description='测试结果如下')
     runner.run(discover)
     fp.close()
 
