@@ -1,4 +1,4 @@
-import requests, unittest
+import requests, unittest,json
 from base import result_assert
 from base import readConfig, handle_datas
 from ddt import ddt, data, unpack
@@ -37,6 +37,8 @@ class TestReleaseContent(unittest.TestCase):
         path = TestReleaseContent.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
         except_data = TestReleaseContent.datas.get_expect_data(index)
+        print(body)
+        print(json.dumps(body))
 
         try:
             if TestReleaseContent.datas.get_request_method(index) == 'post':
@@ -53,6 +55,7 @@ class TestReleaseContent(unittest.TestCase):
             TestReleaseContent.result.set_actual_data(globals()['sheet_id'], index, str(e))
             TestReleaseContent.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
 
+        print(response.text)
         TestReleaseContent.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
         result = result_assert.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
         if result == 'pass':

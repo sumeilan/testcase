@@ -1,4 +1,4 @@
-from base import file_operation, HmacSHA256, readConfig, get_id
+from base import file_operation, HmacSHA256, readConfig, get_id, resourse_url
 from operation_data import get_data
 import time, json
 
@@ -41,6 +41,11 @@ class handleDatas:
                 if i == 'trace_release_vid':
                     trace_release_vid = file_operation.read_file('ids.json')['trace_release_vid']
                     depend_data['trace_release_vid'] = trace_release_vid
+                if i == 'img_list':
+                    img_list = resourse_url.uesr_release_picture_list()
+                    depend_data['img_list'] = img_list
+                    print('depend_data',depend_data['img_list'])
+
             # print('获取接口依赖的字段', self.datas.get_request_depend_data(index),depend_data)
             return depend_data
         else:
@@ -68,6 +73,8 @@ class handleDatas:
                 trace_release_pid = depend_data['trace_release_pid']
             if ('trace_release_vid' in depend_data.keys()):
                 trace_release_vid = depend_data['trace_release_vid']
+            if ('img_list' in depend_data.keys()):
+                img_list = depend_data['img_list']
 
         if len(self.datas.get_request_parameter(index)) == 0:
             body = {'': ''}
