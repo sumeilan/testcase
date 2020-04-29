@@ -43,8 +43,8 @@ class handleDatas:
                     depend_data['trace_release_vid'] = trace_release_vid
                 if i == 'img_list':
                     img_list = resourse_url.uesr_release_picture_list()
-                    depend_data['img_list'] = img_list
-                    print('depend_data',depend_data['img_list'])
+                    depend_data['img_list'] = json.dumps(img_list)
+                    depend_data['img'] = json.dumps(img_list[0])
 
             # print('获取接口依赖的字段', self.datas.get_request_depend_data(index),depend_data)
             return depend_data
@@ -75,6 +75,7 @@ class handleDatas:
                 trace_release_vid = depend_data['trace_release_vid']
             if ('img_list' in depend_data.keys()):
                 img_list = depend_data['img_list']
+                img = depend_data['img']
 
         if len(self.datas.get_request_parameter(index)) == 0:
             body = {'': ''}

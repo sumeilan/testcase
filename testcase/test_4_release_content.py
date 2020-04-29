@@ -38,7 +38,6 @@ class TestReleaseContent(unittest.TestCase):
         url = readConfig.ReadConfig.get_http('baseurl') + path
         except_data = TestReleaseContent.datas.get_expect_data(index)
         print(body)
-        print(json.dumps(body))
 
         try:
             if TestReleaseContent.datas.get_request_method(index) == 'post':

@@ -32,7 +32,7 @@ def send_email(filename):
 
     message['From'] = sender
     message['To'] = ','.join(receivers)
-    message['Subject'] = Header("lemon接口自动化测试报告", "utf-8")
+    message['Subject'] = Header("lemon 接口测试报告", "utf-8")
 
     smtp = smtplib.SMTP_SSL(mail_host, port)
     smtp.login(mail_user, mail_pass)
