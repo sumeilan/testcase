@@ -538,7 +538,7 @@ table       { font-size: 100%; }
 }
 /* --- 失败和错误合集样式 -- Gelomen --- */
 .failCollection, .errorCollection {
-    width: 100px;
+    # width: 100px;
     float: left;
 }
 #failCaseOl li {
