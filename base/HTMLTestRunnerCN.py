@@ -882,10 +882,11 @@ class HTMLTestRunner(Template_mixin):
     """
     """
 
-    def __init__(self, stream=sys.stdout, verbosity=2, title=None, description=None, tester=None):
+    def __init__(self, stream=sys.stdout, verbosity=2, domain =None, title=None, description=None, tester=None):
         self.need_screenshot = 0
         self.stream = stream
         self.verbosity = verbosity
+        self.domain = domain
         if title is None:
             self.title = self.DEFAULT_TITLE
         else:
@@ -963,6 +964,7 @@ class HTMLTestRunner(Template_mixin):
 
         return [
             ('测试人员', self.tester),
+            ('测试环境', self.domain),
             ('开始时间', startTime),
             ('合计耗时', duration),
             ('测试结果', status + "，通过率 = " + self.passrate),

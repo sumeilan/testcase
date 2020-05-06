@@ -2,7 +2,7 @@
 import time
 import os
 
-from base import HTMLTestRunnerCN
+from base import HTMLTestRunnerCN,readConfig
 import unittest
 from email.mime.text import MIMEText
 from email.header import Header
@@ -48,6 +48,7 @@ def report(testreport):
 if __name__ == '__main__':
     # root = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) 获取上级目录
     root = os.getcwd()
+    domain = readConfig.ReadConfig.get_http('baseurl')
     testcase_dir = root + '\\testcase'
     discover = unittest.defaultTestLoader.discover(
         testcase_dir, pattern='test_*.py')
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     filename = root + '\\report\\' + now + '_result.html'
     fp = open(filename, "wb")
     runner = HTMLTestRunnerCN.HTMLTestRunner(
-        stream=fp, title='接口测试报告', description='测试结果如下')
+        stream=fp,domain= domain ,title='接口测试报告', description='测试结果如下')
     runner.run(discover)
     fp.close()
 
