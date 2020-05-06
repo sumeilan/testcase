@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 import time
 import os
-
 from base import HTMLTestRunnerCN,readConfig
 import unittest
 from email.mime.text import MIMEText
