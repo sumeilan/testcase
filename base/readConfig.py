@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import os
 import configparser
 
@@ -12,6 +13,10 @@ class ReadConfig():
         value = config.get('HTTP', name)
         return value
 
+    def set_http(name,value):
+        config.set('HTTP',name,value)
+        config.write(open(config_path,"r+",encoding='utf-8'))
+
     def get_config_path(path):
         value = config.get('PATH', path)
         return value
@@ -21,7 +26,8 @@ class ReadConfig():
         return value
 
 if __name__ == '__main__':
-    pass
-    # print(config_path)
-    # con = ReadConfig.get_config_path('path')
-    # print(con)
+    con = ReadConfig.get_http('baseurl')
+    print(con)
+    set_url = ReadConfig.set_http('baseurl','http://api.lemondream.cn')
+    con1 = ReadConfig.get_http('baseurl')
+    print(con1)

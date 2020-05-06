@@ -44,9 +44,21 @@ def report(testreport):
     filename = os.path.join(testreport, lists[-1])
     return filename
 
+def update_config():
+    baseurl = readConfig.ReadConfig.get_http('baseurl')
+    print(baseurl)
+
 if __name__ == '__main__':
     # root = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) 获取上级目录
     root = os.getcwd()
+    build_type = os.environ['BUILD_TYPE']
+    if build_type == "Demo":
+        readConfig.ReadConfig.set_http('baseurl', 'http://lemondream.chumanapp.com')
+    elif build_type == "Api2":
+        readConfig.ReadConfig.set_http('baseurl', 'http://api-api2.lemondream.cn')
+    else:
+        readConfig.ReadConfig.set_http('baseurl', 'http://api.lemondream.cn')
+
     domain = readConfig.ReadConfig.get_http('baseurl')
     testcase_dir = root + '\\testcase'
     discover = unittest.defaultTestLoader.discover(
