@@ -31,7 +31,7 @@ class TestLiveBroadcast(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_peiyin(self, index, casesname, module, id):
+    def test_livebroadcast(self, index, casesname, module, id):
         body = handle_datas.handleDatas(globals()['sheet_id']).get_request_parameter(index)
         headers = handle_datas.handleDatas(globals()['sheet_id']).get_request_headers(index, body)
         path = TestLiveBroadcast.datas.get_request_url(index)

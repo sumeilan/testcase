@@ -52,13 +52,12 @@ def update_config():
     print(baseurl)
 
 
-def result_data(result):
+def result_data(result,domain):
     total_case = result.success_count + result.error_count + result.failure_count
     failCase = result.failCase.replace('<li>', '').replace('</li>', '\n')
     errorCase = result.errorCase.replace('<li>', '').replace('</li>', '\n')
-    result_data = '测试结果: ' + ' 共' + str(total_case) +','+ ' 通过' + str(result.success_count) +','+ ' 错误' + str(
-        result.error_count) +','+ ' 失败' + str(
-        result.failure_count) + '\n' + '失败用例集：' + failCase + '\n' + '错误用例集：' + '\n' + errorCase
+    result_data ='测试环境：'+ domain +'\n'+'测试结果: ' + ' 共' + str(total_case) +','+ ' 通过' + str(result.success_count) +','+ ' 失败' + str(
+        result.failure_count) +','+' 错误' + str(result.error_count) +  '\n' + '失败用例集：' + failCase + '\n' + '错误用例集：' + '\n' + errorCase
     return result_data
 
 
@@ -66,13 +65,13 @@ if __name__ == '__main__':
     # root = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) 获取上级目录
     root = os.getcwd()
     #jenkins打包参数build_type
-    build_type = os.environ['BUILD_TYPE']
-    if build_type == "Demo":
-        readConfig.ReadConfig.set_http('baseurl', 'http://lemondream.chumanapp.com')
-    elif build_type == "Api2":
-        readConfig.ReadConfig.set_http('baseurl', 'http://api-api2.lemondream.cn')
-    else:
-        readConfig.ReadConfig.set_http('baseurl', 'http://api.lemondream.cn')
+    # build_type = os.environ['BUILD_TYPE']
+    # if build_type == "Demo":
+    #     readConfig.ReadConfig.set_http('baseurl', 'http://lemondream.chumanapp.com')
+    # elif build_type == "Api2":
+    #     readConfig.ReadConfig.set_http('baseurl', 'http://api-api2.lemondream.cn')
+    # else:
+    #     readConfig.ReadConfig.set_http('baseurl', 'http://api.lemondream.cn')
 
     domain = readConfig.ReadConfig.get_http('baseurl')
     testcase_dir = root + '\\testcase'
@@ -87,6 +86,6 @@ if __name__ == '__main__':
     fp.close()
     test_report = root + "\\report"
     rep = report(test_report)
-    result_data = result_data(result)
+    result_data = result_data(result,domain)
     send_report_to_ding.dingmessage(str(result), result_data, str(rep))
     send_email(rep)
