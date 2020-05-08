@@ -1,8 +1,8 @@
 # coding:utf-8
 class global_var:
     case_id = '0'
-    case_name = '1'
-    module = '2'
+    module = '1'
+    case_name = '2'
     url = '3'
     request_method = '4'
     request_headers = '5'

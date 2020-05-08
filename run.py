@@ -57,7 +57,7 @@ def result_data(result,domain):
     failCase = result.failCase.replace('<li>', '').replace('</li>', '\n')
     errorCase = result.errorCase.replace('<li>', '').replace('</li>', '\n')
     result_data ='测试环境：'+ domain +'\n'+'测试结果: ' + ' 共' + str(total_case) +','+ ' 通过' + str(result.success_count) +','+ ' 失败' + str(
-        result.failure_count) +','+' 错误' + str(result.error_count) +  '\n' + '失败用例集：' + failCase + '\n' + '错误用例集：' + '\n' + errorCase
+        result.failure_count) +','+' 错误' + str(result.error_count) +  '\n' + '失败用例集：'+'\n' + failCase + '\n' + '错误用例集：' + '\n' + errorCase
     return result_data
 
 
