@@ -45,7 +45,7 @@ class TestAppCommon(unittest.TestCase):
                 response = requests.get(url, params=body, headers=headers)
 
             handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
-            TestAppCommon.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
+            # TestAppCommon.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
 
         except Exception as e:
             globals()['result'] = '报错啦'
