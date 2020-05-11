@@ -18,7 +18,7 @@ def uesr_release_picture_list():
 
     img_list = []
     img_list.append(img)
-    
+
     return img_list
 
 
