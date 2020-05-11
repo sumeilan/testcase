@@ -65,6 +65,7 @@ if __name__ == '__main__':
     # root = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) 获取上级目录
     root = os.getcwd()
     #jenkins打包参数build_type
+
     build_type = os.environ['BUILD_TYPE']
     if build_type == "Demo":
         readConfig.ReadConfig.set_http('baseurl', 'http://lemondream.chumanapp.com')
@@ -74,6 +75,7 @@ if __name__ == '__main__':
         readConfig.ReadConfig.set_http('baseurl', 'http://api.lemondream.cn')
 
     domain = readConfig.ReadConfig.get_http('baseurl')
+    print(build_type,domain)
     testcase_dir = root + '\\testcase'
     discover = unittest.defaultTestLoader.discover(
         testcase_dir, pattern='test_*.py')
