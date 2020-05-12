@@ -535,6 +535,7 @@ table       { font-size: 100%; }
 /* -- heading ---------------------------------------------------------------------- */
 .heading .description, .attribute {
     clear: both;
+    float: left;
 }
 /* --- 失败和错误合集样式 -- Gelomen --- */
 .failCollection, .errorCollection {
@@ -619,7 +620,7 @@ table       { font-size: 100%; }
 <div style="width: 650px; float: left;">
     <h1 style="font-family: Microsoft YaHei">%(title)s</h1>
     %(parameters)s
-    <p class='description'>%(description)s</p>
+    <p class='description'><strong>%(description)s</strong></p>
 </div>
 <div id="container"></div>
 </div>
@@ -701,7 +702,7 @@ table       { font-size: 100%; }
     <!-- 默认展开错误信息 -Findyou /  修复失败按钮的颜色 -- Gelomen -->
     <button id='btn_%(tid)s' type="button"  class="btn btn-xs" data-toggle="collapse" data-target='#div_%(tid)s,#div_%(tid)s_screenshot'>%(status)s</button>
     <div id='div_%(tid)s' class="collapse in">
-    <pre style="text-align:left">
+    <pre style="text-align:left;max-height: 300px;overflow-y: auto;">
     %(script)s
     </pre>
     </div>
@@ -722,7 +723,7 @@ table       { font-size: 100%; }
         <!-- 默认展开错误信息 -Findyou /  修复失败按钮的颜色 -- Gelomen -->
         <button id='btn_%(tid)s' type="button"  class="btn btn-xs" data-toggle="collapse" data-target='#div_%(tid)s'>%(status)s</button>
         <div id='div_%(tid)s' class="collapse in">
-        <pre style="text-align:left">
+        <pre style="text-align:left;max-height: 300px;overflow-y: auto;">
         %(script)s
         </pre>
         </div>
@@ -1121,13 +1122,15 @@ class HTMLTestRunner(Template_mixin):
 
         # utf-8 支持中文 - Findyou
         # o and e should be byte string because they are collected from stdout and stderr?
-        if isinstance(o, str):
-            # TODO: some problem with 'string_escape': it escape \n and mess up formating
-            # uo = unicode(o.encode('string_escape'))
-            # uo = o.decode('latin-1')
-            uo = o
-        else:
-            uo = o
+        # if isinstance(o, str):
+        #     # TODO: some problem with 'string_escape': it escape \n and mess up formating
+        #     # uo = unicode(o.encode('string_escape'))
+        #     # uo = o.decode('latin-1')
+        #     uo = o
+        # else:
+        #     uo = o
+        uo = o
+
         if isinstance(e, str):
             # TODO: some problem with 'string_escape': it escape \n and mess up formating
             # ue = unicode(e.encode('string_escape'))

@@ -1,5 +1,5 @@
 import requests, unittest
-from base import result_assert
+from base import handleResult
 from base import readConfig, handle_datas
 from ddt import ddt, data, unpack
 from operation_data import get_data, set_data
@@ -7,7 +7,7 @@ from operation_data import get_data, set_data
 
 @ddt
 class TestUserLogin(unittest.TestCase):
-    globals()['sheet_id'] = 2 # app通用
+    globals()['sheet_id'] = 2  #登录
     cases_index = []
     cases_name = []
     cases_module = []
@@ -24,7 +24,7 @@ class TestUserLogin(unittest.TestCase):
     cases = list(zip(cases_index, cases_name, cases_module, cases_id))
 
     def setUp(self):
-        globals()['result'] = 'fail'
+        pass
 
     def tearDown(self):
         pass
@@ -45,19 +45,12 @@ class TestUserLogin(unittest.TestCase):
                 response = requests.get(url, params=body, headers=headers)
 
             handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
-            TestUserLogin.result.set_actual_data(globals()['sheet_id'], index, str(response.json()))  # 将实际结果写入excel
+            handleResult.out_print(url, headers, body, response)
 
         except Exception as e:
-            globals()['result'] = '报错啦'
-            TestUserLogin.result.set_actual_data(globals()['sheet_id'], index, response.text)
-            TestUserLogin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 写入测试结果
-        print(response.text)
+            print("报错了", e)
 
-        TestUserLogin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 先写入测试结果为不通过
-        result = result_assert.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
-        if result == 'pass':
-            globals()['result'] = 'pass'
-            TestUserLogin.result.set_pass_fail(globals()['sheet_id'], index, globals()['result'])  # 更新为测试通过
+        handleResult.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
 
 
 if __name__ == '__main__':

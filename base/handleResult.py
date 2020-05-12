@@ -2,6 +2,12 @@ from assertpy import assert_that
 import json
 
 
+def out_print(url, headers, body, response):
+    print("url:", url, "\n")
+    print("headers:", headers, "\n")
+    print("body:", body, "\n")
+    print("response:", response.text)
+
 def result_assert(response, status_code=None, expect_results=None):
     result = 'pass'
     if status_code is not None:
