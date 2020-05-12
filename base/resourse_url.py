@@ -1,7 +1,6 @@
 import json
 from base import file_operation, readConfig
 
-
 def uesr_release_picture_list():
     url = readConfig.ReadConfig.get_http('baseurl')
     use_id = file_operation.read_file('ids.json')['uid']

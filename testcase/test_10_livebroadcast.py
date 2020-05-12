@@ -7,7 +7,7 @@ from operation_data import get_data, set_data
 
 @ddt
 class TestLiveBroadcast(unittest.TestCase):
-    globals()['sheet_id'] = 9 # 直播
+    globals()['sheet_id'] = 10 # 直播
     cases_index = []
     cases_name = []
     cases_module = []
