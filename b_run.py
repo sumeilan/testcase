@@ -16,7 +16,7 @@ def send_email(filename):
     mail_pass = 'pwitsrzesjesbebc'  # 密码
 
     sender = '912041511@qq.com'  # 发送邮件名
-    receivers = ['sumeilan@dreampix.cn']
+    receivers = ['912041511@qq.com']
     message = MIMEMultipart('related')
 
     f = open(filename, 'rb')
@@ -44,6 +44,7 @@ def report(testreport):
     lists = os.listdir(testreport)
     lists.sort(key=lambda fn: os.path.getatime(testreport + "\\" + fn))
     filename = os.path.join(testreport, lists[-1])
+    print(filename)
     return filename
 
 
@@ -76,7 +77,7 @@ if __name__ == '__main__':
 
     domain = readConfig.ReadConfig.get_http('baseurl')
     # print(build_type,domain)
-    testcase_dir = root + '\\testcase'
+    testcase_dir = root + '\\b_testcase'
     discover = unittest.defaultTestLoader.discover(
         testcase_dir, pattern='test_*.py')
     now = time.strftime("%Y-%m-%d %H_%M_%S")
