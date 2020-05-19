@@ -3,9 +3,6 @@ import openpyxl
 from openpyxl.styles import Alignment
 import os
 
-def bg_excel(self):
-    pass
-
 def format_excel(file):
     workbook = openpyxl.load_workbook(filename=file)
     sheets = workbook.worksheets
