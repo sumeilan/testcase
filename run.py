@@ -74,7 +74,7 @@ if __name__ == '__main__':
         readConfig.ReadConfig.set_http('baseurl', 'http://api.lemondream.cn')
 
     domain = readConfig.ReadConfig.get_http('baseurl')
-    # print(build_type,domain)
+    print(build_type,domain)
     testcase_dir = root + '\\testcase'
     discover = unittest.defaultTestLoader.discover(
         testcase_dir, pattern='test_*.py')
