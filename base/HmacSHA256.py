@@ -1,22 +1,6 @@
 import base64
 import hmac, json
 import hashlib
-from base import file_operation
-
-def sh256(co):
-    secretKey = 'SwYNTwt5qPABx29Atyi0'
-    Authorization = base64.b64encode(
-        hmac.new(str.encode(secretKey), str.encode(str(co)), digestmod=hashlib.sha256).digest())
-    print(Authorization)
-    headers = {
-        "Content-Type": "application/json",
-        "channel": "default",
-        "X-Token": "4b5e4c5a02",
-        "Authorization": Authorization.decode('utf-8')
-    }
-
-    file_operation.write_file(headers, 'headers.json')
-
 
 def auth(co):
     secretKey1 = 'SwYNTwt5qPABx29Atyi0'

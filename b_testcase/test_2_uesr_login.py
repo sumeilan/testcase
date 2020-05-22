@@ -48,6 +48,9 @@ class TestUserLogin(unittest.TestCase):
             handleResult.out_print(url, headers, body, response)
 
         except Exception as e:
+            print(response.text)
+            print(headers)
+            print(body)
             print("报错了", e)
 
         handleResult.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
