@@ -2,8 +2,6 @@ import base64
 import hmac, json
 import hashlib
 from base import file_operation
-from operation_data import get_data
-
 
 def sh256(co):
     secretKey = 'SwYNTwt5qPABx29Atyi0'
@@ -20,11 +18,18 @@ def sh256(co):
     file_operation.write_file(headers, 'headers.json')
 
 
-def sh258(co):
-    secretKey = 'SwYNTwt5qPABx29Atyi0'
+def auth(co):
+    secretKey1 = 'SwYNTwt5qPABx29Atyi0'
+    secretKey2 = 'SwYNun73nlo82443Twt5qPABx29Atyi0'
     Authorization = base64.b64encode(
-        hmac.new(str.encode(secretKey), str.encode(str(co)), digestmod=hashlib.sha256).digest())
+        hmac.new(str.encode(secretKey1), str.encode(str(co)), digestmod=hashlib.sha256).digest())
     return Authorization.decode('utf-8')
+
+def auth2(co):
+    secretKey2 = 'SwYNun73nlo82443Twt5qPABx29Atyi0'
+    AuthorizationV2 = base64.b64encode(
+        hmac.new(str.encode(secretKey2), str.encode(str(co)), digestmod=hashlib.sha256).digest())
+    return AuthorizationV2.decode('utf-8')
 
 
 if __name__ == '__main__':

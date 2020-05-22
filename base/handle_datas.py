@@ -91,9 +91,9 @@ class handleDatas:
 
     # hearder参数
     def get_request_headers(self, index, body):
-        Authorization = HmacSHA256.sh258(json.dumps(body))  # 请求头需要Authorization
+        Authorization = HmacSHA256.auth(json.dumps(body))  # 请求头Authorization
+        AuthorizationV2 = HmacSHA256.auth2(json.dumps(body))  #请求头AuthorizationV2
         biData = json.dumps(file_operation.read_file('biD.json'))
-        # print('biData1',type(biData),json.dumps(biData))
         XToken = file_operation.read_file('token.json')['X-Token']
         versionCode = readConfig.ReadConfig.get_http('versionCode')
         accessToken = file_operation.read_file('token.json')['access_token']
