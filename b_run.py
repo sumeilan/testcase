@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
     domain = readConfig.ReadConfig.get_http('baseurl')
     # print(build_type,domain)
-    testcase_dir = root + '\\b_testcase'
+    testcase_dir = root + '\\testcase'
     discover = unittest.defaultTestLoader.discover(
         testcase_dir, pattern='test_*.py')
     now = time.strftime("%Y-%m-%d %H_%M_%S")

@@ -4,17 +4,16 @@ from base import readConfig, handle_datas
 from ddt import ddt, data, unpack
 from operation_data import get_data, set_data
 
-
 @ddt
-class TestBofangye(unittest.TestCase):
-    globals()['sheet_id'] = 5 # 播放页
+class TestH5Activity(unittest.TestCase):
+    globals()['sheet_id'] = 6  # h5活动
     cases_index = []
     cases_name = []
     cases_module = []
     cases_id = []
     datas = get_data.getData(globals()['sheet_id'])
     indexs = datas.get_case_count()
-
+    result = set_data.setData(globals()['sheet_id'])
     for i in range(1, indexs):
         if datas.get_is_run(i):
             cases_index.append(i)
@@ -22,6 +21,7 @@ class TestBofangye(unittest.TestCase):
             cases_module.append((datas.get_module(i)))
             cases_id.append(int(datas.get_case_id(i)))
     cases = list(zip(cases_index, cases_name, cases_module, cases_id))
+    print(cases)
 
     def setUp(self):
         pass
@@ -31,15 +31,15 @@ class TestBofangye(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_bofangye(self, index, casesname, module, id):
+    def test_h5_activity(self, index, casesname, module, id):
         body = handle_datas.handleDatas(globals()['sheet_id']).get_request_parameter(index)
         headers = handle_datas.handleDatas(globals()['sheet_id']).get_request_headers(index, body)
-        path = TestBofangye.datas.get_request_url(index)
+        path = TestH5Activity.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
-        except_data = TestBofangye.datas.get_expect_data(index)
+        except_data = TestH5Activity.datas.get_expect_data(index)
 
         try:
-            if TestBofangye.datas.get_request_method(index) == 'post':
+            if TestH5Activity.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
             else:
                 response = requests.get(url, params=body, headers=headers)
