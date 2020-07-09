@@ -5,8 +5,8 @@ from ddt import ddt, data, unpack
 from operation_data import get_data, set_data
 
 @ddt
-class TestH5Activity(unittest.TestCase):
-    globals()['sheet_id'] = 6  # h5活动
+class TestOthers(unittest.TestCase):
+    globals()['sheet_id'] = 11  # 其他
     cases_index = []
     cases_name = []
     cases_module = []
@@ -30,15 +30,15 @@ class TestH5Activity(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_h5_activity(self, index, casesname, module, id):
+    def test_others(self, index, casesname, module, id):
         body = handle_datas.handleDatas(globals()['sheet_id']).get_request_parameter(index)
         headers = handle_datas.handleDatas(globals()['sheet_id']).get_request_headers(index, body)
-        path = TestH5Activity.datas.get_request_url(index)
+        path = TestOthers.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
-        except_data = TestH5Activity.datas.get_expect_data(index)
+        except_data = TestOthers.datas.get_expect_data(index)
 
         try:
-            if TestH5Activity.datas.get_request_method(index) == 'post':
+            if TestOthers.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
             else:
                 response = requests.get(url, params=body, headers=headers)
