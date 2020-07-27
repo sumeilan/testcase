@@ -77,11 +77,12 @@ if __name__ == '__main__':
 
     domain = readConfig.ReadConfig.get_http('baseurl')
     # print(build_type,domain)
-    testcase_dir = root + '\\testcase'
+    testcase_dir = root + '\\b_testcase'
     discover = unittest.defaultTestLoader.discover(
         testcase_dir, pattern='test_*.py')
-    now = time.strftime("%Y-%m-%d %H_%M_%S")
+    now = time.strftime("%Y-%m-%d_%H_%M_%S")
     filename = root + '\\report\\' + now + '_result.html'
+    print(filename)
     fp = open(filename, "wb")
     runner = HTMLTestRunnerCN.HTMLTestRunner(
         stream=fp, domain=domain, title='接口测试报告', description='测试结果如下')
