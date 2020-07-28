@@ -62,8 +62,8 @@ def result_data(result,domain):
 
 
 if __name__ == '__main__':
-    # root = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) 获取上级目录
-    root = os.getcwd()
+    root = os.path.abspath(os.path.dirname(__file__)) #获取当前目录
+    # root = os.getcwd()
     # jenkins打包参数build_type
     build_type = os.environ['BUILD_TYPE']
     if build_type == "Demo":
