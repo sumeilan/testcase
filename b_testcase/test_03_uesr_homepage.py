@@ -4,16 +4,17 @@ from base import readConfig, handle_datas
 from ddt import ddt, data, unpack
 from operation_data import get_data, set_data
 
+
 @ddt
-class TestOthers(unittest.TestCase):
-    globals()['sheet_id'] = 11  # 其他
+class TestUserHomepage(unittest.TestCase):
+    globals()['sheet_id'] = 3 # 个人空间页
     cases_index = []
     cases_name = []
     cases_module = []
     cases_id = []
     datas = get_data.getData(globals()['sheet_id'])
     indexs = datas.get_case_count()
-    result = set_data.setData(globals()['sheet_id'])
+
     for i in range(1, indexs):
         if datas.get_is_run(i):
             cases_index.append(i)
@@ -30,15 +31,15 @@ class TestOthers(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_others(self, index, casesname, module, id):
+    def test_user_homepage(self, index, casesname, module, id):
         body = handle_datas.handleDatas(globals()['sheet_id']).get_request_parameter(index)
         headers = handle_datas.handleDatas(globals()['sheet_id']).get_request_headers(index, body)
-        path = TestOthers.datas.get_request_url(index)
+        path = TestUserHomepage.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
-        except_data = TestOthers.datas.get_expect_data(index)
+        except_data = TestUserHomepage.datas.get_expect_data(index)
 
         try:
-            if TestOthers.datas.get_request_method(index) == 'post':
+            if TestUserHomepage.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
             else:
                 response = requests.get(url, params=body, headers=headers)
