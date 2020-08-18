@@ -6,15 +6,14 @@ from operation_data import get_data, set_data
 
 
 @ddt
-class TestUserHomepage(unittest.TestCase):
-    globals()['sheet_id'] = 3 # 个人空间页
+class TestAppCommon(unittest.TestCase):
+    globals()['sheet_id'] = 0  # app通用
     cases_index = []
     cases_name = []
     cases_module = []
     cases_id = []
     datas = get_data.getData(globals()['sheet_id'])
     indexs = datas.get_case_count()
-
     for i in range(1, indexs):
         if datas.get_is_run(i):
             cases_index.append(i)
@@ -31,26 +30,29 @@ class TestUserHomepage(unittest.TestCase):
 
     @unpack
     @data(*cases)
-    def test_user_homepage(self, index, casesname, module, id):
+    def test_app_common(self, index, casesname, module, id):
         body = handle_datas.handleDatas(globals()['sheet_id']).get_request_parameter(index)
         headers = handle_datas.handleDatas(globals()['sheet_id']).get_request_headers(index, body)
-        path = TestUserHomepage.datas.get_request_url(index)
+        path = TestAppCommon.datas.get_request_url(index)
         url = readConfig.ReadConfig.get_http('baseurl') + path
-        except_data = TestUserHomepage.datas.get_expect_data(index)
+        except_data = TestAppCommon.datas.get_expect_data(index)
+
 
         try:
-            if TestUserHomepage.datas.get_request_method(index) == 'post':
+            if TestAppCommon.datas.get_request_method(index) == 'post':
                 response = requests.post(url, json=body, headers=headers, verify=False)
             else:
                 response = requests.get(url, params=body, headers=headers)
 
             handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
             handleResult.out_print(url, headers, body, response)
+            print(response.text)
 
         except Exception as e:
-            print("报错了", e)
+            print("报错了",e)
 
         handleResult.result_assert(response.text, response.status_code, except_data)  # 断言，判断接口状态和预期结果
+
 
 
 if __name__ == '__main__':

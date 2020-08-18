@@ -65,13 +65,10 @@ if __name__ == '__main__':
     root = os.path.abspath(os.path.dirname(__file__)) #获取当前目录
     # root = os.getcwd()
     # jenkins打包参数build_type
-    build_type = os.environ['BUILD_TYPE']
+    # build_type = os.environ['BUILD_TYPE']
+    build_type = "Demo"
     if build_type == "Demo":
-        readConfig.ReadConfig.set_http('baseurl', 'http://lemondream.chumanapp.com')
-    elif build_type == "Api2":
-        readConfig.ReadConfig.set_http('baseurl', 'http://api-api2.lemondream.cn')
-    else:
-        readConfig.ReadConfig.set_http('baseurl', 'http://api.lemondream.cn')
+        readConfig.ReadConfig.set_http('baseurl', 'http://api-demo.lemondream.cn')
 
     domain = readConfig.ReadConfig.get_http('baseurl')
     print(build_type,domain)

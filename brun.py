@@ -66,13 +66,8 @@ def result_data(result, domain):
 
 if __name__ == '__main__':
     root = os.path.abspath(os.path.dirname(__file__)) #获取上级目录
-    # root = os.getcwd()
-    # print("root:",root)
-    # root = "E:\\python\\testcase"
     domain = readConfig.ReadConfig.get_http('baseurl')
     testcase_dir = root + '\\testcase'
-
-    print(testcase_dir)
     discover = unittest.defaultTestLoader.discover(testcase_dir, pattern='test_*.py')
     now = time.strftime("%Y-%m-%d_%H_%M_%S")
     filename = root + '\\report\\' + now + '_result.html'

@@ -24,10 +24,8 @@ class OperationExcel:
         for sheet in data.sheets():
             i =i+1
             if sheet.name == sheet_name:
-                print(sheet.name)
+
                 self.sheet_id = i
-                print('根据sheet名称获得id')
-                print( self.sheet_id)
                 return i
 
     # 获取sheets的内容

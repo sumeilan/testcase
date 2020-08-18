@@ -45,6 +45,7 @@ class TestAppCommon(unittest.TestCase):
 
             handle_datas.handleDatas(globals()['sheet_id']).get_data_from_response(index, response.json())  # 保存需要保存的数据
             handleResult.out_print(url, headers, body, response)
+            print(response.text)
 
         except Exception as e:
             print("报错了",e)
